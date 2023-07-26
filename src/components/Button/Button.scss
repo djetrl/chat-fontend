@@ -1,0 +1,5 @@
+.button{
+  &--large{
+    height: calc(var(--main-size-text ) + 42px) !important;
+  }
+}

@@ -1,0 +1,164 @@
+.message {
+  display: flex;
+  margin-bottom: 15px;
+}
+.message__avatar {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.message__avatar .avatar {
+  border-radius: 50px;
+  width: 33px;
+  height: 33px;
+  margin-right: 13px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  line-height: 31px;
+  object-fit: cover;
+}
+.message__attachments {
+  display: flex;
+  margin-bottom: 5px;
+}
+.message__attachments-item {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.message__attachments-item img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+}
+.message__content {
+  display: flex;
+  max-width: 440px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.message__icon-readed {
+  position: absolute;
+  bottom: 22px;
+  left: -25px;
+}
+.message__icon-readed--no {
+  left: -20px;
+}
+.message--is-audio audio {
+  display: none;
+}
+.message--is-audio .message__bubble {
+  width: 280px;
+  position: relative;
+  overflow: hidden;
+}
+.message--is-audio .message__audio-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.message--is-audio .message__audio-btn button {
+  cursor: pointer;
+  line-height: 50%;
+  border: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 30px;
+  background: #0F3997;
+}
+.message--is-audio .message__audio-btn button img {
+  height: 13px;
+}
+.message--is-audio .message__audio-duration {
+  color: #fff;
+  font-weight: 500;
+  opacity: 0.5;
+  font-size: 12px;
+}
+.message--is-audio .message__audio-progress {
+  background-color: #418FFF;
+  left: 0;
+  top: 0;
+  position: absolute;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+.message__bubble {
+  background: #3674FF;
+  box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
+  border-radius: 12px 12px 12px 0px;
+  padding: 15px;
+  margin-bottom: 8px;
+}
+.message__date {
+  font-size: 12px;
+  opacity: 0.5;
+}
+.message__text {
+  color: #fff;
+  line-height: 20px;
+}
+.message--isMe {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.message--isMe .message__content {
+  margin-bottom: 15px;
+  flex-direction: row-reverse;
+}
+.message--isMe .message__avatar {
+  margin-right: 0;
+  margin-left: 13px;
+}
+.message--isMe .message__info {
+  text-align: right;
+}
+.message--isMe .message__bubble {
+  background: white;
+  border: 1px solid #ececec;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.0220444);
+  border-radius: 12px 12px 0px 12px;
+  flex-direction: row-reverse;
+}
+.message--isMe .message__bubble .message__text {
+  color: #202020;
+}
+.message--is-typing .message__bubble {
+  background-color: #E5EDFF;
+  box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.04);
+  padding: 15px 18px;
+}
+.message--image .message__attachments-item img {
+  width: 150px;
+  height: 150px;
+}
+.message__typing span {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background: #A6BDF0;
+  display: inline-block;
+  margin-right: 8px;
+  animation-name: TypingAnimation;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 0.5s;
+}
+.message__typing span:nth-of-type(2) {
+  animation-duration: 0.6s;
+}
+.message__typing span:nth-of-type(3) {
+  animation-duration: 0.7s;
+}
+
+@keyframes TypingAnimation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

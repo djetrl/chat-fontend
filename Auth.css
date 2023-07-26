@@ -1,0 +1,55 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.auth__top {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.auth__top h2 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+.auth__top p {
+  line-height: 21px;
+  font-size: 18px;
+  letter-spacing: 0.1px;
+  opacity: 0.5;
+}
+.auth .block {
+  width: 430px;
+}
+.auth .button {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  width: 100%;
+}
+.auth__register-link {
+  text-align: center;
+  display: block;
+  color: #ADADAD;
+  font-size: 18px;
+  letter-spacing: 0.1px;
+}
+.auth_success-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 400px;
+}
+.auth_success-block svg {
+  width: 48px;
+  height: 48px;
+}
+.auth_success-block h2 {
+  margin-top: 10px;
+}
+.auth_success-block p {
+  color: #ADADAD;
+}

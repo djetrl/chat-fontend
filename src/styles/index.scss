@@ -1,0 +1,39 @@
+@import 'reset-css';
+@import './variables'; 
+@import './layouts/chat';
+body{
+  background: #f4f7fd;
+}
+body, html, #root, .wrapper{
+  height: 100%;
+  color: #202020;
+  font-size: var(--main-size-text );
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  outline: none;
+}
+.ant-btn-circle {
+  border: 0;
+  box-shadow: none;
+  color: #202020 !important;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:after {
+    display: none;
+  }
+}
+body::-webkit-scrollbar {
+  width: 0;
+}
+a{
+  text-decoration: none;
+}

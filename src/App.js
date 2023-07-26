@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes, Route} from 'react-router-dom';
+import { connect } from 'react-redux';
+import {Auth,Home} from './pages';
+import {RequireAuth} from './utils/helpers'
 
-function App() {
+function App(props) {
+   const { isAuth } = props;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <Routes>  
+        <Route  path='/signin/*' Component={Auth}  />
+        <Route  path='/signup' Component={Auth}  />
+        <Route  path='/signup/verify/*' Component={Auth}  />
+        <Route path='*' element={
+            <RequireAuth isAuth={isAuth}>
+              <Home/>
+            </RequireAuth>
+        } />;
+
+      
+      </Routes>
+        
     </div>
   );
-}
-
-export default App;
+} 
+export default connect(({ user }) => ({ isAuth: user.isAuth }))(App);

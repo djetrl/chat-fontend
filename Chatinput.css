@@ -1,0 +1,40 @@
+.chat-input {
+  display: flex;
+  padding: 20px;
+  position: relative;
+}
+.chat-input__smile-btn {
+  margin-right: 11px;
+}
+.chat-input__smile-btn span.anticon {
+  margin-top: 6px;
+}
+.chat-input__emoji-picker {
+  position: absolute;
+  bottom: 50px;
+  z-index: 1;
+}
+.chat-input .ant-btn-circle span.anticon {
+  font-size: 1.42857143em;
+  cursor: pointer;
+}
+.chat-input__actions {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  justify-content: space-between;
+  margin-left: 15px;
+}
+.chat-input__actions .chat-input_actions-upload-btn {
+  cursor: pointer;
+}
+.chat-input__actions .chat-input_actions-upload-btn:hover button {
+  opacity: 1;
+}
+.chat-input input {
+  font-size: 14px;
+  padding: 6px 11px 8px;
+}
+.chat-input input:focus {
+  box-shadow: none;
+}

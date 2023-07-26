@@ -1,0 +1,14 @@
+.messages {
+  height: 100%;
+  padding: 20px;
+  padding-bottom: 0;
+  overflow: auto;
+}
+.messages--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.messages--loading .ant-spin-nested-loading {
+  width: 100%;
+}

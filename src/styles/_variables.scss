@@ -1,0 +1,23 @@
+$blue:#3674FF;
+$black: #202020;
+$green: #00C980;
+$message-typing-blue:#E5EDFF;
+$message-typing--circle:#A6BDF0;
+:root{
+  --main-size-text: 14px ;
+}
+
+@media (max-width: 1024px) and (min-width:768px) {
+  $main-size-text: 12px ;
+  :root{
+    --main-size-text: 12px ;
+  }
+}
+
+
+@media (max-width: 768px)  {
+  :root{
+    --main-size-text: 10px ;
+  }
+
+}

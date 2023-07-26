@@ -1,0 +1,264 @@
+@import '../../styles/variables.scss';
+.message{
+  $self: &; 
+  display: flex;
+  margin-bottom: calc(var(--main-size-text ) + 1px);;
+
+  &__avatar{
+    display:flex;
+    flex-direction: column-reverse;
+    .avatar{
+      border-radius:50px ;
+      width: calc(var(--main-size-text ) + 19px);
+      height: calc(var(--main-size-text ) + 19px);
+      margin-right: calc(var(--main-size-text ) - 1px);
+      margin-bottom:calc(var(--main-size-text ) - 9px);
+      font-size: var(--main-size-text);
+      line-height: calc(var(--main-size-text ) + 19px);
+      object-fit: cover;
+    }
+  }
+  &__attachments{
+    display: flex;
+    margin-bottom: calc(var(--main-size-text ) - 9px);
+    order:1;
+    &-item{
+      $item:&;
+      margin-right:calc(var(--main-size-text ) - 9px);
+      cursor: pointer;
+      position: relative;
+      img{
+        width: calc(var(--main-size-text ) + 31px);
+        height:  calc(var(--main-size-text ) + 31px);
+        border-radius:8px;
+      }
+
+      &:hover{
+
+          #{$item}-overlay{
+            opacity: 1;
+          }
+          
+      }
+
+      &-overlay{
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color:rgba(0,0,0, 0.3 );
+        transition: opacity 0.15s ease-in-out;
+        border-radius:8px;
+        .anticon-eye{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          svg{
+            color:white;
+            font-size:  calc(var(--main-size-text ) + 4px);
+          }
+        }
+      }
+    }
+    
+  }
+  &__content{
+      display: flex;
+      max-width: 440px;
+      max-width: calc(var(--main-size-text )  * 31.4285714);
+      margin-bottom: calc(var(--main-size-text ) + 6px);
+      position: relative;
+  }
+  &__icon{
+    &-readed{
+      position: absolute;
+      bottom: calc(var(--main-size-text ) + 4px);
+      left: calc(var(--main-size-text ) - 39px);
+      &--no{
+        left: calc(var(--main-size-text ) - 34px);;
+      }
+    }
+    &-actions{
+      display: none;
+      transform: rotate(90deg);
+      position: absolute;
+      left: -31px;
+      top: -5px;
+    }
+  }
+
+  &--is-audio{
+    audio{
+      display: none;
+    }
+    #{$self}__bubble{
+      width:calc(var(--main-size-text ) * 20);
+      position: relative;
+      overflow: hidden;
+    }
+    #{$self}__audio{
+      padding: calc(var(--main-size-text ) + 1px);
+      background-color:#3674FF;
+      border-radius: 6px 6px 0 6px;
+      width:calc(var(--main-size-text ) * 17.8571429);
+      overflow: hidden;
+      position: relative;
+      &-info{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+      }
+      &-wave{
+        z-index: 2;
+        justify-content: center;
+        display: flex;
+        img{
+          width: calc(var(--main-size-text) + 80%);
+        }
+      }
+      &-btn{
+        z-index: 2;
+        button{
+          cursor: pointer;
+          line-height: 50%;
+          border:0;
+          width: calc(var(--main-size-text ) + 14px);
+          height: calc(var(--main-size-text ) + 14px);
+          border-radius:30px;
+          background:#0F3997;
+          img{
+            height: 13px;
+            position: relative;
+            left: 1px;
+          }
+        }
+      }
+      &-duration{
+        color: #fff;
+        font-weight: 500;
+        opacity: 0.5;
+        font-size: calc(var(--main-size-text ) - 2px);
+        z-index: 2;
+      }
+      &-progress{
+        background-color:#418FFF;
+        left: 0;
+        top: 0;
+        position: absolute;
+        height: 100%;
+        transition:width 0.3s ease;
+        z-index: 1;
+      }
+    }
+  }
+  &__bubble{
+
+    background:$blue;
+    box-shadow: 0px 5px 5px rgba(54,116,255, 0.196733);
+    border-radius: 12px 12px 12px 0px;
+    padding:  calc(var(--main-size-text ) + 1px);
+    margin-bottom: 8px;
+  }
+  &__date{
+    font-size:  calc(var(--main-size-text ) - 2px);
+    opacity: 0.5;
+  }
+  &__text{
+    color: #fff;
+    line-height:  calc(var(--main-size-text ) + 6px);
+  }
+  &--isMe{
+    display: flex;
+    flex-direction: row-reverse;
+
+    #{$self}__content{
+       margin-bottom: calc(var(--main-size-text ) + 1px);
+       flex-direction: row-reverse;
+       &:hover{
+        #{$self}__icon-actions{
+          display: block;
+        }
+      }
+    }
+    #{$self}__avatar{
+      margin-right: 0;
+      margin-left: calc(var(--main-size-text ) - 1px);
+
+   }
+
+   #{$self}__info{
+    text-align: right;
+    display: flex;
+    align-items:center;
+ }
+    #{$self}__bubble{
+      background:#ffff;
+      border: 1px solid #ececec;
+      box-shadow:0px 4px 4px rgba(0,0,0,0.0220444);
+      border-radius: 12px 12px 0px 12px;
+      flex-direction: row-reverse;
+      order:2;
+      #{$self}__text{
+        color:$black;
+      }
+    }
+  }
+  &--is-typing{
+    #{$self}__bubble{
+      background-color: $message-typing-blue;
+      box-shadow:0px 5px 5px rgba(54, 116, 255, 0.04);
+      padding: calc(var(--main-size-text ) + 1px) calc(var(--main-size-text ) + 4px);
+    }
+  }
+  &--image{
+    #{$self}__attachments{
+      &-item{
+        img{
+        
+          width: calc(var(--main-size-text ) + 136px);
+          height:calc(var(--main-size-text ) + 136px);
+        }
+      }
+    }
+  }
+  &__typing{
+    
+    span{
+        height: calc(var(--main-size-text ) - 6px);
+        width: calc(var(--main-size-text ) - 6px);
+        border-radius:50%;
+        background: $message-typing--circle;
+        display:inline-block;
+        margin-right: 8px;
+        animation-name: TypingAnimation;
+        animation-timing-function: ease-in-out ;
+        animation-iteration-count: infinite;
+        animation-duration:0.5s;
+
+      &:nth-of-type(2){
+        animation-duration: 0.6s;
+      }
+      &:nth-of-type(3){
+        animation-duration:0.7s;
+      }
+    }
+  }
+
+}
+
+
+@keyframes TypingAnimation{
+  0%{
+   opacity: 0;
+  }
+  50%{
+    opacity: 0.5;
+   }
+   100%{
+    opacity: 1;
+   }
+}

@@ -1,0 +1,21 @@
+.status{
+  display: inline-block;
+  color:#bfbfbf;
+  position: relative;
+  &::before{
+    display: block;
+    position: absolute;
+    top: calc(var(--main-size-text ) - 9px);
+    left: calc(var(--main-size-text ) - 25px);
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 30px;
+    background-color:#D3D3D3;
+  }
+  &--online{
+    &::before{
+      background-color:#00c980;
+    }
+  }
+}

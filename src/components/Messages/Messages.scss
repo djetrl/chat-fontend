@@ -1,0 +1,18 @@
+.messages{
+  height: 100%;
+  padding: calc(var(--main-size-text ) + 6px);;
+  padding-bottom: 0;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+
+  }
+  &--loading{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    .ant-spin-nested-loading{
+      width: 100%;
+    }
+  }
+}
