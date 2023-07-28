@@ -21,12 +21,12 @@ const Sidebar = ({user,
                   onChangeTextArea,
                   messageText,
                   selectedUserId,
-                  visibleModalSettings,
-                  onCloseModalSettings,
+                  visibleSettings,
+                  onCloseSettings,
                   previewImage,
                   avatarSetting,
                   setPreviewImage,
-                  onShowModalSettings,
+                  onShowSettings,
                   visibleSettingsEdit,
                   toggleVisibleSettingsEdit,
                   nameInputSetting,
@@ -42,9 +42,9 @@ const Sidebar = ({user,
   return(
     <div className="chat__sidebar">
     <div className="chat__sidebar-header">
-    { visibleModalSettings ? (
+    { visibleSettings ? (
         <div >
-        <ArrowLeftOutlined onClick={onCloseModalSettings} style={{'cursor':'pointer'}} />
+        <ArrowLeftOutlined onClick={onCloseSettings} style={{'cursor':'pointer'}} />
         <span> Настройки</span>
     </div> ):(
         <div>
@@ -53,11 +53,11 @@ const Sidebar = ({user,
         </div>
     )}
         <div style={{"display":'flex'}}>
-        {visibleModalSettings ? <Button  onClick={toggleVisibleSettingsEdit} type='link' shape='circle' icon={<EditOutlined />}/>  :null}
+        {visibleSettings ? <Button  onClick={toggleVisibleSettingsEdit} type='link' shape='circle' icon={<EditOutlined />}/>  :null}
         <Popover content={
         <div className='chat__sidebar-popover'> 
           <Button onClick={onShowModalCreateDialog}>Создать диалог</Button>
-          <Button onClick={onShowModalSettings}>Настройки</Button>
+          <Button onClick={onShowSettings}>Настройки</Button>
          </div>
         
         } title={null} trigger={"click"}>
@@ -68,9 +68,10 @@ const Sidebar = ({user,
         </div>
     </div>
 
-{visibleModalSettings ? (
-    <div  className="chat__sidebar-setting chat__sidebar-setting--editing">
+{visibleSettings ? (
+  <>
         {visibleSettingsEdit ? (
+          <div  className="chat__sidebar-setting chat__sidebar-setting--editing">
             <form  className="profile-form" onSubmit={sendChangeProfile}>
                       <UploadField
                           name="avatar"
@@ -83,22 +84,28 @@ const Sidebar = ({user,
                           multiple:'multiple'
                         }}>
                             <div className='bg-active'></div>
-                          <Avatar user={avatarSetting && {fullname:nameInputSetting, avatar:avatarSetting, _id:user._id}}/>
+                          <Avatar user={avatarSetting ? {fullname:nameInputSetting, avatar:avatarSetting, _id:user._id} : user}/>
                           <PlusOutlined/>
                       </UploadField >
-                    <Input type="text" name='name' value={nameInputSetting}  onChange={(e)=>{setNameInputeSetting(e.target.value)}} placeholder='имя'/>
-                    <Input type="email" name='email' value={emailInputSetting} onChange={(e)=>{setEmailInputSetting(e.target.value)}}  placeholder='почта' />
+                        <div className="input-info-container">
+                          <Input type="text" name='name' value={nameInputSetting}  onChange={(e)=>{setNameInputeSetting(e.target.value)}} placeholder='имя'/>
+                          <Input type="email" name='email' value={emailInputSetting} onChange={(e)=>{setEmailInputSetting(e.target.value)}}  placeholder='почта' />
+                        </div>
                   {
                   (nameInputSetting !== user.fullname) ||
                   (emailInputSetting !== user.email) ||
-                  (avatarSetting[0].url !== user.avatar[0].url) ? 
-                  <input type="submit" />:null
+                  (user.avatar.length >= 1 ?  (avatarSetting[0].url !== user.avatar[0].url) : avatarSetting.length === 1)   ? 
+                  <input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} />:null
                   }
             </form>
-          
+          </div>
         ):(
-          <>
-            <div className="avatar_wrapper" onClick={()=>{setPreviewImage(user.avatar)}}>
+          <div  className="chat__sidebar-setting ">
+            <div className="avatar_wrapper" onClick={()=>{
+                 if(user.avatar[0]){
+                  setPreviewImage(user.avatar[0].url)
+                 }
+              }}>
                 <Avatar user={user}/>
             </div>
 
@@ -117,9 +124,9 @@ const Sidebar = ({user,
                   <p>email</p>
                 </div>
                </div>
-          </>
+         </div>
         ) }
-    </div>
+</>
 ) :
     (   
     <div  className="chat__sidebar-dialogs">
@@ -129,7 +136,7 @@ const Sidebar = ({user,
 }
       <Modal open={!!previewImage} onCancel={() => setPreviewImage(null)} footer={null} className={'chat__sidebar-setting-modal-avatar'}>
         {  
-          <img src={user? user.avatar[0].url :null} style={{ width: '100%' }} alt="Preview" />
+         <img src={previewImage} style={{ width: '100%' }} alt="Preview" />
         }
       </Modal>
       <Modal title="Создать диалог" 

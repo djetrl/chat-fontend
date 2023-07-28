@@ -22,6 +22,7 @@ const Dialogs = ({
   const [previewImage, setPreviewImage] = useState(null);
   const [blockHeight, setBlockHeight] = useState(135);
   const [isTyping, setIsTyping] = useState(false);
+  const [scrollTop, setScrollTop] = useState(0);
   let typingTimeoutId = null;
 
   const messagesRef = useRef(null);
@@ -63,6 +64,29 @@ const Dialogs = ({
       messagesRef.current.scrollTo(0, 999999);
     }
   }, [items, isTyping]);
+  useEffect(() => {
+
+    const handleScroll = () => {
+      setScrollTop( document.documentElement.scrollTop);
+      if (scrollTop === 0) {
+        alert('Вверх');
+      }
+      console.log(
+        messagesRef.current.scrollTop 
+      );
+      
+    };
+    console.log(messagesRef.current);
+    if(messagesRef && messagesRef.current){
+      messagesRef.current.addEventListener('scroll', handleScroll);
+    }
+  
+    return () => {
+      if(messagesRef && messagesRef.current){
+      messagesRef.current.removeEventListener('scroll', handleScroll);
+    }
+    };
+  }, []);
 
   if (!currentDialog) {
     return <Empty description="Откройте диалог" />;

@@ -1,11 +1,11 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import { connect } from "react-redux";
 import { userApi,dialogsApi, filesApi} from '../utils/api';
 import { Sidebar  } from "../components";
 import { userActions } from '../redux/actions';
-const SidebarContainer = ({user,dialogs})=>{
+const SidebarContainer = ({user,updateData,dialogs})=>{
   const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
-  const [visibleModalSettings, setVisibleModalSettings] = useState(false);
+  const [visibleSettings, setVisibleSettings] = useState(false);
   const [visibleSettingsEdit, setVisibleSettingsEdit] = useState(false);
   const [inputValue, seInputValue] = useState('');
   const [ messageText, setMessageText] = useState('');
@@ -16,16 +16,15 @@ const SidebarContainer = ({user,dialogs})=>{
   const [avatarSetting, setAvatarSetting] = useState(user && user.avatar);
   const [nameInputSetting, setNameInputeSetting] = useState(user && user.fullname);
   const [emailInputSetting, setEmailInputSetting] = useState(user && user.email);
-
   const onCloseModalCreateDialog = ()=>{
     setVisibleModalCreateDialog(false);
   };
 
-  const onShowModalSettings =()=> {
-    setVisibleModalSettings(true);
+  const onShowSettings =()=> {
+    setVisibleSettings(true);
   }
-  const onCloseModalSettings = ()=>{
-    setVisibleModalSettings(false);
+  const onCloseSettings = ()=>{
+    setVisibleSettings(false);
     setVisibleSettingsEdit(false)
   };
 
@@ -75,12 +74,15 @@ const SidebarContainer = ({user,dialogs})=>{
 // Загрузка аватара 
 const onSelectFiles = async files => {
   // eslint-disable-next-line no-loop-func
+  setIsLoading(true)
   await filesApi.upload(files[0]).then(({ data }) => {
       setAvatarSetting([data.file])
+      setIsLoading(false)
     });
  };
 const sendChangeProfile =(e)=>{
   e.preventDefault()
+  setIsLoading(true)
   const newData = {};
   if(user.fullname !== nameInputSetting){
     newData.fullname = nameInputSetting;
@@ -93,18 +95,27 @@ const sendChangeProfile =(e)=>{
   }else{
     newData.email = user.email;
   }
-  if(user.avatar[0]._id !== avatarSetting[0]._id){
-    newData.avatar = avatarSetting[0]._id;
+  if(user.avatar[0]){
+    if(user.avatar[0]._id !== avatarSetting[0]._id){
+      newData.avatar = avatarSetting[0]._id;
+    }else{
+      newData.avatar = user.avatar[0]._id
+    }
   }else{
-    newData.avatar = user.avatar[0]._id
+    if(avatarSetting[0]){
+      newData.avatar = avatarSetting[0]._id;
+    }else{
+      newData.avatar = [];
+    }
   }
   if(newData !=={}){
       userApi.update(newData).then((data)=>{
-        window.location.replace(`/dialog/${dialogs}`);
+
+        updateData(data.data)
+        setIsLoading(false)
       })
   }
 }
-
   return <Sidebar user={user} 
                   inputValue={inputValue} 
                   onSearch={onSearch} 
@@ -114,9 +125,9 @@ const sendChangeProfile =(e)=>{
                   visibleModalCreateDialog={visibleModalCreateDialog} 
                   onCloseModalCreateDialog={onCloseModalCreateDialog} 
                   onShowModalCreateDialog={onShowModalCreateDialog}
-                  visibleModalSettings={visibleModalSettings}
-                  onCloseModalSettings={onCloseModalSettings} 
-                  onShowModalSettings={onShowModalSettings}
+                  visibleSettings={visibleSettings}
+                  onCloseSettings={onCloseSettings} 
+                  onShowSettings={onShowSettings}
                   selectedUserId={selectedUserId}
                   onChangeTextArea={onChangeTextArea}
                   messageText={messageText}

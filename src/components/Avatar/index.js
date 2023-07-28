@@ -4,7 +4,8 @@ import { generateAvatarFromHash } from '../../utils/helpers';
 import './Avatar.scss';
 
 const Avatar = ({ user }) => {
-  if (user  && user.avatar ) {
+
+  if (user  && user.avatar[0] ) {
     return (
       <img
         className="avatar"

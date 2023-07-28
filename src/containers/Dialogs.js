@@ -6,18 +6,20 @@ import  socket from'../core/socket';
 
 import { Dialogs as BaseDialogs} from "../components";
 
-const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, userId }) => {
+const Dialogs = ({ fetchDialogs, updateReadedStatus,deleteDialogs, currentDialogId, items, userId }) => {
   const [inputValue, setValue] = useState('');
   const [filtred, setFiltredItems] = useState(Array.from(items));
 
   const onChangeInput = (value = '') => {
-    setFiltredItems(
-      items.filter(
-        dialog =>
-          dialog.author.fullname.toLowerCase().indexOf(value.toLowerCase()) >= 0 ||
-          dialog.partner.fullname.toLowerCase().indexOf(value.toLowerCase()) >= 0,
-      ),
-    );
+    if(filtred){
+      setFiltredItems(
+        items.filter(
+          dialog =>
+            dialog.author.fullname.toLowerCase().indexOf(value.toLowerCase()) >= 0 ||
+            dialog.partner.fullname.toLowerCase().indexOf(value.toLowerCase()) >= 0,
+        ),
+      );
+    }
     setValue(value);
   };
 
@@ -33,11 +35,13 @@ const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, use
     fetchDialogs();
 
     socket.on('SERVER:DIALOG_CREATED', fetchDialogs);
+    socket.on('SERVER:DIALOG_DELETED', ()=>{onChangeInput()});
     socket.on('SERVER:NEW_MESSAGE', fetchDialogs);
     socket.on('SERVER:MESSAGES_READED', updateReadedStatus);
     return () => {
       socket.removeListener('SERVER:DIALOG_CREATED', fetchDialogs);
       socket.removeListener('SERVER:NEW_MESSAGE', fetchDialogs);
+      socket.removeListener('SERVER:DIALOG_DELETED',()=>{onChangeInput()});
     };
   }, []);
 

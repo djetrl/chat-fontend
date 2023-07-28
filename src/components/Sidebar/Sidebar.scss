@@ -8,4 +8,23 @@
     min-width: 280px;
     margin: 0 auto;
   }
+  .btn-setting-submit{
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    font-size: 39px;
+    height: 60px;
+    width: 60px;
+    min-width: 60px;
+    color: white;
+    background: #3674FF;
+    box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
+    padding: 0;
+    border-radius: 30px;
+    border: 0;
+    margin-top: 14px;
+    &:hover, &:disabled{
+      background: #214694;
+      color:rgb(160, 160, 160);
+    }
+  }
 }

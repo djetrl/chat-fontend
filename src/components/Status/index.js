@@ -5,7 +5,7 @@ import {EllipsisOutlined} from '@ant-design/icons';
 import { Button, Popover } from 'antd';
 
 import './Status.scss';
-const Status= ({online, fullname}) =>(
+const Status= ({online, fullname, onDeleteDialog}) =>(
   <div className="chat__dialog-header">
     <div className="chat__dialog-header-center">     
         <b className="chat__dialog-header-username">{fullname}</b>
@@ -17,7 +17,7 @@ const Status= ({online, fullname}) =>(
       className="chat__dialog-header-action"
       content={
         <div>
-          <Button>Удалить диалог</Button>
+          <Button onClick={onDeleteDialog}>Удалить диалог</Button>
         </div>
       }
       trigger="click">

@@ -12,6 +12,11 @@ export default (state = initialState,{type, payload} )=>{
       ...state,
       items:payload
     };
+    case 'DIALOGS:DELETE_ITEM':
+      return{
+        ...state,
+        items: state.items.filter(item => item._id !== payload)
+      };
     case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
       return {
         ...state,

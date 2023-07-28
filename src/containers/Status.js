@@ -1,6 +1,12 @@
 import { Status as StatusBase } from "../components";
 import { connect } from "react-redux";
-const Status = ({ currentDialogId,user, dialogs})=>{
+import { dialogsApi } from '../utils/api';
+import { dialogsActions } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
+const Status = ({ currentDialogId,user, dialogs,setCurrentDialogId,deleteDialogs })=>{
+
+  const navigate = new useNavigate();
+
   if(!dialogs.length   || !currentDialogId){
     return null;
   }
@@ -13,8 +19,19 @@ const Status = ({ currentDialogId,user, dialogs})=>{
   }else{
     partner = currentDialogObj.author;
   }
-
-    return <StatusBase online={partner.isOnline} fullname = {partner.fullname}/>
+  const onDeleteDialog = ()=>{
+    if(window.confirm(
+      'Вы действительно хотите удалить диалог? при удалении все сообщения удаляются у всех участников диалога без возможности возврата'
+      )){
+    dialogsApi.delete(currentDialogId)
+    .then(()=>{
+      deleteDialogs(currentDialogId);
+      setCurrentDialogId('');
+      navigate('/')
+    })
+  }
+  }
+    return <StatusBase online={partner.isOnline} fullname = {partner.fullname} onDeleteDialog={onDeleteDialog}/>
 }
 
 export default connect(
@@ -22,4 +39,4 @@ export default connect(
                           dialogs:dialogs.items,
                           currentDialogId:dialogs.currentDialogId,
                           user:user.data
-                        }))(Status);
+                        }), dialogsActions)(Status);

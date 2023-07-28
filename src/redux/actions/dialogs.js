@@ -5,6 +5,10 @@ const Actions = {
     type:'DIALOGS:SET_ITEMS',
     payload:items
   }),
+  deleteDialogs: id=> ({
+    type:'DIALOGS:DELETE_ITEM',
+    payload:id
+  }),
   updateReadedStatus: ({ userId, dialogId }) => ({
     type: 'DIALOGS:LAST_MESSAGE_READED_STATUS',
     payload: {

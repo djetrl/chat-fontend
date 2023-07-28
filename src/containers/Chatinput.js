@@ -102,7 +102,7 @@ const ChatInput = props => {
       mediaRecorder.stop();
     } else if ((value && value.trim() !== '') || attachments.length !== 0 ) {
       fetchSendMessage({
-        text: value,
+        text:value.trim() !=='' ? value: null,
         dialogId: currentDialogId,
         attachments: attachments.map(file => file.uid),
       });
@@ -189,3 +189,4 @@ export default connect(
                         }) , 
                         {...messagesActions, ...attachmentsActions} )
                         (ChatInput);
+// TODO: После отправленния одного сообщеня с фото после этого  до перезагрузки страницы  нельзя больше отправить фото исправить
