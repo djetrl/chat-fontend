@@ -16,13 +16,15 @@ const Messages= ({
     previewImage, 
     setPreviewImage,
     blockHeight,
+    messageLength,
+    currentDialog,
     isTyping,
-    partner
+    partner,
+    handleLoadNewMessage
   }) =>{
-
   return(
     <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}px)` }}>
-    <div ref={blockRef} className={classNames('messages', { 'messages--loading': isLoading })}>
+    <div ref={blockRef} onScroll={(e)=>{handleLoadNewMessage(e,messageLength, currentDialog, items )}} className={classNames('messages', { 'messages--loading': isLoading })}>
       {isLoading && !user ? (
         <Spin size='large' tip="Загрузка сообщений..."> </Spin>
       ) : items && !isLoading ? (

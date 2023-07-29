@@ -2,11 +2,12 @@ import { useEffect,useRef, useState} from "react";
 import {connect} from 'react-redux';
 import { Empty } from "antd";
 import { find } from "lodash";
-
+import { messagesApi } from "../utils/api";
 import {messagesActions} from '../redux/actions'
 import socket from "../core/socket";
 
 import { Messages as BaseMessages} from "../components";
+import { da } from "date-fns/locale";
 
 const Dialogs = ({
   currentDialog,
@@ -17,12 +18,14 @@ const Dialogs = ({
   isLoading,
   removeMessageById,
   attachments,
+  additionalLoadingMessage,
+  total
 }) => {
   
   const [previewImage, setPreviewImage] = useState(null);
   const [blockHeight, setBlockHeight] = useState(135);
   const [isTyping, setIsTyping] = useState(false);
-  const [scrollTop, setScrollTop] = useState(0);
+  const [messageLength, setMessageLength] = useState(15);
   let typingTimeoutId = null;
 
   const messagesRef = useRef(null);
@@ -40,7 +43,6 @@ const Dialogs = ({
   useEffect(() => {
     socket.on('DIALOGS:TYPING', toggleIsTyping);
   }, []);
-
   useEffect(() => {
     if (attachments.length) {
       setBlockHeight(245);
@@ -53,46 +55,42 @@ const Dialogs = ({
     if (currentDialog) {
       fetchMessages(currentDialog._id);
     }
-
+    
     socket.on('SERVER:NEW_MESSAGE', onNewMessage);
 
     return () => socket.removeListener('SERVER:NEW_MESSAGE', onNewMessage);
   }, [currentDialog]);
 
+  
   useEffect(() => {
     if(messagesRef.current){
       messagesRef.current.scrollTo(0, 999999);
     }
-  }, [items, isTyping]);
-  useEffect(() => {
+  }, [messagesRef.current, isTyping]);
 
-    const handleScroll = () => {
-      setScrollTop( document.documentElement.scrollTop);
-      if (scrollTop === 0) {
-        alert('Вверх');
-      }
-      console.log(
-        messagesRef.current.scrollTop 
-      );
-      
-    };
-    console.log(messagesRef.current);
-    if(messagesRef && messagesRef.current){
-      messagesRef.current.addEventListener('scroll', handleScroll);
+  const handleLoadNewMessage =(e,messageLength=15,currentDialog,items)=>{
+    if(e.target.scrollTop >= 200  || e.target.scrollTop <= 200   ){
+        if(messageLength > 0){
+          console.log(messageLength < total - 15);
+              if(messageLength < total){
+              messagesApi.getAllByDialogId(currentDialog._id, messageLength).then((data)=>{
+                if(items[0] || items && data.data.messages > 0 ){
+                  if(items[0]._id !== data.data.messages[0]._id){
+                    additionalLoadingMessage(data.data.messages)
+                    setMessageLength(data.data.messages.length + messageLength)  
+                  }
+                }
+              })
+            }
+        }
     }
-  
-    return () => {
-      if(messagesRef && messagesRef.current){
-      messagesRef.current.removeEventListener('scroll', handleScroll);
-    }
-    };
-  }, []);
+  }
+
+
 
   if (!currentDialog) {
     return <Empty description="Откройте диалог" />;
   }
-
-
 
 
   return (
@@ -102,6 +100,8 @@ const Dialogs = ({
       items={items}
       isLoading={isLoading && !user}
       onRemoveMessage={removeMessageById}
+      messageLength={messageLength}
+      currentDialog={currentDialog}
       setPreviewImage={setPreviewImage}
       previewImage={previewImage}
       blockHeight={blockHeight}
@@ -109,6 +109,7 @@ const Dialogs = ({
       partner={
         user._id !== currentDialog.partner._id ? currentDialog.author : currentDialog.partner
       }
+      handleLoadNewMessage={handleLoadNewMessage}
     />
   );
 };
@@ -117,6 +118,7 @@ export default connect(
   ({ dialogs, messages, user, attachments }) => ({
     currentDialog: find(dialogs.items, { _id: dialogs.currentDialogId }),
     items: messages.items,
+    total: messages.total,
     isLoading: messages.isLoading,
     attachments: attachments.items,
     user: user.data,

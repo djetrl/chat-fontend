@@ -1,6 +1,7 @@
 const initialState={
   items:[],
-  isLoading:false
+  isLoading:false,
+  total:null
 }
 
 
@@ -9,13 +10,19 @@ export default (state = initialState,{type, payload} )=>{
     case 'MESSAGES:ADD_MESSAGE':
       return{
         ...state,
-        items:[...state.items,payload]
+        items:[...state.items, payload],
       };
+      case 'MESSAGES:ADDIITIONAL_LOADING':
+        return{
+          ...state,
+          items:[...payload, ...state.items]
+        };
     case 'MESSAGES:SET_ITEMS':
     return{
       ...state,
-      items:payload,
-      isLoading:false
+      items:payload.messages,
+      isLoading:false,
+      total:payload.total
     };
     case 'DIALOGS:LAST_MESSAGE_READED_STATUS':
       return {

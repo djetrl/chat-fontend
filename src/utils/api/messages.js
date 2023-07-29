@@ -2,7 +2,7 @@ import {axios} from "../../core";
 
 
 export default {
-  getAllByDialogId: id=> axios.get("/messages?dialog="+id),
+  getAllByDialogId: (id, skip=0 )=> axios.get(`/messages?dialog=${id}&skip=${skip}`),
   removeById: id =>axios.delete("/messages?id="+id),
   send: (text,dialogId,attachments)=> axios.post("/messages",{
     "text":text,

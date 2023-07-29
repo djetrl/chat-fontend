@@ -15,6 +15,12 @@ const Actions = {
       })
     }
   },
+  additionalLoadingMessage:messages=>dispatch=>{
+    dispatch({
+      type:"MESSAGES:ADDIITIONAL_LOADING",
+      payload:messages
+    })
+  },
   setIsLoading: bool=> ({
     type:'MESSAGES:SET_IS_LOADING',
     payload:bool 
