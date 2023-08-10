@@ -7,21 +7,23 @@
       position: relative;
       $searchs: &;
       .ant-input,button{
-        background-color: #F4F8F9;
         border: 0;
         height: calc(var(--main-size-text ) + 24px) ;
         padding: calc(var(--main-size-text ) - 10px) calc(var(--main-size-text ) - 3px) calc(var(--main-size-text ) - 8px);
+        &::placeholder{
+          color:var(--color-text-secondary) ;
+        }
       }
       &-icon{
         position: absolute;
         right: calc(var(--main-size-text ) + 16px) ;
         top: calc(var(--main-size-text ) + 4px) ;
-        color: rgba(0, 0 ,0 ,0.5);
-        transition: color .5s ease;
+        color:var(--color-text) ;
+        transition: opacity .5s ease;
       }
       &:hover{
         #{$searchs}-icon{
-          color: rgba(0, 0 ,0 ,1);
+          opacity: .6;
         }
       }
     }
@@ -30,11 +32,14 @@
     margin-bottom: calc(var(--main-size-text ) + 16px) ;
     $item: &;
     color: $black;
+    transition: all .1s ease;
+    color:var(--color-text);
     &:hover{
-      background-color:#F3F7FF;
+      background-color:var(--background-secondaryСolor);
+      color:var(--color-text);
     }
     &--selected, &--selected:hover{
-      background-color: #1890FF;
+      background-color: var(--blue);
       color:#FFF !important;
     }
     &-avatar {

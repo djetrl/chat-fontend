@@ -1,23 +1,43 @@
-$blue:#3674FF;
 $black: #202020;
 $green: #00C980;
 $message-typing-blue:#E5EDFF;
 $message-typing--circle:#A6BDF0;
-:root{
+
+html{
   --main-size-text: 14px ;
+  --blue:#3674FF;
+  --blue--dark:#0F3997;
+  --blue-light:#418FFF;
 }
 
 @media (max-width: 1024px) and (min-width:768px) {
   $main-size-text: 12px ;
-  :root{
+  html{
     --main-size-text: 12px ;
   }
 }
 
 
 @media (max-width: 768px)  {
-  :root{
+  html{
     --main-size-text: 10px ;
   }
 
 }
+html:has(.wrapper[data-theme="light"]){
+  --background-color: white;
+  --background-secondaryСolor:#d1d1d1;
+  --color-text:black;
+  --color-text-secondary:rgb(80, 80, 80);
+}
+
+html:has(.wrapper[data-theme="dark"]) {
+  --background-color:rgb(37, 37, 37);
+  --background-secondaryСolor:#1d1d1d;
+  --color-text:white;
+  --blue:#9118c9;
+  --blue--dark:#700f97;
+  --blue-light:#aa41ff;
+  --color-text-secondary:rgb(185, 181, 181);
+}
+

@@ -1,7 +1,8 @@
 const initialState={
   items:[],
   isLoading:false,
-  total:null
+  total:null,
+  filter:'',
 }
 
 
@@ -10,12 +11,13 @@ export default (state = initialState,{type, payload} )=>{
     case 'MESSAGES:ADD_MESSAGE':
       return{
         ...state,
+        isLoading:false,
         items:[...state.items, payload],
       };
       case 'MESSAGES:ADDIITIONAL_LOADING':
         return{
           ...state,
-          items:[...payload, ...state.items]
+          items:[...payload, ...state.items],       
         };
     case 'MESSAGES:SET_ITEMS':
     return{
@@ -44,6 +46,11 @@ export default (state = initialState,{type, payload} )=>{
           ...state,
           items:state.items.filter(message=>message._id !== payload)
         };
+      case 'MESSAGES:SET_FILTER':
+        return{
+          ...state,
+          filter:payload,
+        };  
     default:
       return state
   }

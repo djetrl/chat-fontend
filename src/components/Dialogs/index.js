@@ -13,6 +13,7 @@ const Dialogs= ({items, userId, onSearch,inputValue,currentDialogId})=>(
                 value={inputValue}  />
                 <SearchOutlined className='dialogs__search-icon' />
     </div>
+    {console.log(items)}
     {items.length ? orderBy(items,["created_at"], ['desc']).map(item=>(
         <Dialogitem   key={item._id}
                       isMe={item.author._id === userId } 

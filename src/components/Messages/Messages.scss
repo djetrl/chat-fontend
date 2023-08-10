@@ -3,6 +3,8 @@
   padding: calc(var(--main-size-text ) + 6px);;
   padding-bottom: 0;
   overflow: auto;
+  max-width: 1000px;
+  margin: 0 auto;
   &::-webkit-scrollbar {
     width: 0;
 
@@ -15,4 +17,13 @@
       width: 100%;
     }
   }
+}
+.SpinLoadingOldMessages{
+  left: 50%;
+  min-width: 75px;
+  color: black;
+  transform: translateY(60px);
+}
+.chat__dialog-messages{
+  position: relative;
 }

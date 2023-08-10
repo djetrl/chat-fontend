@@ -7,7 +7,18 @@ const Actions = {
     type: "USER:SET_DATA",
     payload: data
   }),
-
+  setTheme: theme =>dispatch=> {
+      dispatch({
+        type: "USER:SET_OPTION_THEME_SET",
+        payload: theme
+      })
+  },
+  toggleSidebarPartner: bool=>dispatch=> {
+    dispatch({
+      type: "USER:SET_OPTION_SIDEBARPARTNER_TOGGLE",
+      payload: bool
+    })
+},
   setIsAuth: bool => ({
     type: "USER:SET_IS_AUTH",
     payload: bool

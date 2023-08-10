@@ -2,12 +2,12 @@ import {Routes, Route} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {Auth,Home} from './pages';
 import {RequireAuth} from './utils/helpers'
-
 function App(props) {
-   const { isAuth } = props;
+   const { isAuth,theme } = props;
 
   return (
-    <div className="wrapper">
+    //theme
+    <div className="wrapper" data-theme={theme}>
       <Routes>  
         <Route  path='/signin/*' Component={Auth}  />
         <Route  path='/signup' Component={Auth}  />
@@ -24,4 +24,7 @@ function App(props) {
     </div>
   );
 } 
-export default connect(({ user }) => ({ isAuth: user.isAuth }))(App);
+export default connect(({ user }) => ({ 
+  isAuth: user.isAuth ,
+  theme: user.theme
+}))(App);

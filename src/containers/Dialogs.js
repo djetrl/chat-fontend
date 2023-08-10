@@ -6,7 +6,7 @@ import  socket from'../core/socket';
 
 import { Dialogs as BaseDialogs} from "../components";
 
-const Dialogs = ({ fetchDialogs, updateReadedStatus,deleteDialogs, currentDialogId, items, userId }) => {
+const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, userId }) => {
   const [inputValue, setValue] = useState('');
   const [filtred, setFiltredItems] = useState(Array.from(items));
 

@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import {connect } from 'react-redux';
-import {Messages,Chatinput,Status,Sidebar} from '../../containers';
+import {Messages,Chatinput,Status,Sidebar,SidebarPartner} from '../../containers';
 import { withRouter } from '../../utils/helpers';
 import { dialogsActions } from '../../redux/actions';
+
 import './Home.scss';
 const Home = (props)=>{
   const {setCurrentDialogId,user} = props;
@@ -11,7 +12,6 @@ const Home = (props)=>{
     const dialogId = pathname.split('/').pop()
       setCurrentDialogId(dialogId)
   },[props.router.location.pathname])
-
   return (
     <section className='home'>
       <div className="chat">
@@ -26,6 +26,7 @@ const Home = (props)=>{
           </div>
             )
           }
+          <SidebarPartner/>
       </div>
 
     </section>
@@ -33,4 +34,6 @@ const Home = (props)=>{
       }
 
 
-export default withRouter(connect(({ user})=>({user:user.data}), dialogsActions)(Home) );
+export default withRouter(connect(({ user})=>({
+  user:user.data
+}), dialogsActions)(Home) );

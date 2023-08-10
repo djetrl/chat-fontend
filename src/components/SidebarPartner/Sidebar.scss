@@ -1,0 +1,15 @@
+
+.chat__sidebar-setting-chapter-gallery{
+  display: flex;
+  flex-wrap: wrap;
+  padding:20px  0 !important;
+  gap:7px;
+  justify-content: center;
+  .ant-image{
+    width: 30% !important;
+  }
+}
+.chat__sidebar-hidden{
+  width: 0 !important;
+  visibility: hidden !important;
+}

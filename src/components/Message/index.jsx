@@ -11,6 +11,7 @@ import { convertCurrentTime , isAudio} from '../../utils/helpers';
 import waveSvg from '../../assets/img/wave.svg';
 import playSvg from '../../assets/img/play.svg';
 import pauseSvg from '../../assets/img/pause.svg';
+import {formBytes} from '../../utils/helpers';
 import './Message.scss';
 
 
@@ -61,13 +62,32 @@ const MessageAudio = ({audioSrc})=>{
   </div>
   )
 }
+const MessageFile= ({item})=>{
+  return(
+    <div className='message__file'>
+      <div className="message__file-header">
+        <div className="message__file-header-item">
+          <div>
+            <p>{item.filename}</p>
+            <span>{item.url.split('.')[1]}</span>
+          </div>
+          <p className='date'>{item.updatedAt.split("T")[1].split(/\b(\d{2}:\d{2})\b/)[1]}</p>
+        </div>
+        <div className="message__file-header-item">
+            <p className='message__file-header-size'>{formBytes(item.size)}</p>
+        </div>
+      </div>
+      <div className="message__file-bottom">
+            <a href={item.url}>Download</a>
+      </div>
+  </div>
+  )
+}
 
-
-const Message= ({avatar,user, text, date, isMe, readed, attachments,isTyping,onRemoveMessage,setPreviewImage})=>{
- 
+const Message= ({user, text, date, isMe, readed, attachments,isTyping,onRemoveMessage,setPreviewImage,toggleSidebarPartnerFunc})=>{
   init({ data })
   const renderAttachment = (item)=>{
-    if(item.ext !== 'webm'){
+    if(item.ext !== 'application/octet-stream' && item.ext.split('/')[0] === 'image' ){
       return (
         <div key={item._id} onClick={()=>setPreviewImage(item.url)} className="message__attachments-item">
         <div className="message__attachments-item-overlay">
@@ -77,17 +97,29 @@ const Message= ({avatar,user, text, date, isMe, readed, attachments,isTyping,onR
         <img src={item.url}  alt={item.filename} />
       </div>  
       )
-    }else{
-      return <MessageAudio key={item._id} audioSrc={item.url}/>
+    }else if(item.ext === 'application/octet-stream'){
+      return <MessageAudio key={item._id} audioSrc={item.url}/>    
+    }else if(item.ext.split('/')[0] === 'video' ){
+      return(
+     <div key={item._id} className="message__attachments-item">
+        <video width={'100%'}  height="100%" style={{'borderRadius':"10px"}} controls="controls">
+            <source src={item.url} type={`${item.ext}; codecs="vp8, vorbis"`}/>
+            Тег video не поддерживается вашим браузером. 
+        </video>
+      </div>  
+      )
+    }
+    else{
+      return <MessageFile key={item._id} item={item}/>
     }
   }
-
+  
   return(
     <div className={classNames('message',{
       'message--isMe':isMe, 
       'message--is-typing':isTyping,
       'message--image': !isAudio(attachments) && attachments && attachments.length === 1 && !text ,
-      'message--is-audio': isAudio(attachments)
+      'message--is-audio': isAudio(attachments),
       })}>
       <div className="message__content">
         <IconReaded isMe={isMe} isReaded={readed}/>
@@ -96,8 +128,8 @@ const Message= ({avatar,user, text, date, isMe, readed, attachments,isTyping,onR
           <Button type='link' shape='circle' icon={<EllipsisOutlined />}/>
           </div>
         </Popover>
-        <div className="message__avatar">
-          <Avatar user={user}/>
+        <div className="message__avatar" onClick={toggleSidebarPartnerFunc} >
+          <Avatar user={user} />
         </div>
         <div className="message__info">
             {(text || isTyping) &&  
@@ -118,9 +150,6 @@ const Message= ({avatar,user, text, date, isMe, readed, attachments,isTyping,onR
                            <span></span>
                         </div>
                    )}
-                  {false && (
-                    <MessageAudio audioSrc={null}/>
-                  )}
                   </div>
             }
             

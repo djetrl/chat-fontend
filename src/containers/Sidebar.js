@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { userApi,dialogsApi, filesApi} from '../utils/api';
 import { Sidebar  } from "../components";
 import { userActions } from '../redux/actions';
-const SidebarContainer = ({user,updateData,dialogs})=>{
+// const MemoizedStatus= memo(Sidebar);
+const SidebarContainer = ({user,updateData,theme,setTheme})=>{
   const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
   const [visibleSettings, setVisibleSettings] = useState(false);
   const [visibleSettingsEdit, setVisibleSettingsEdit] = useState(false);
@@ -116,6 +117,9 @@ const sendChangeProfile =(e)=>{
       })
   }
 }
+const onSelectTheme = (e)=>{
+  setTheme(e.target.value)
+}
   return <Sidebar user={user} 
                   inputValue={inputValue} 
                   onSearch={onSearch} 
@@ -144,11 +148,14 @@ const sendChangeProfile =(e)=>{
                   avatarSetting={avatarSetting}
                   sendChangeProfile={sendChangeProfile}
                   onSelectFiles={onSelectFiles}
+                  onSelectTheme={onSelectTheme}
+                  theme={theme}
                   />
 }
 
 
 export default connect(({user,dialogs})=>({
   user:user.data,
+  theme:user.theme,
   dialogs:dialogs.currentDialogId
 }), userActions)(SidebarContainer);

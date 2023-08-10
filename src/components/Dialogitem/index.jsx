@@ -29,27 +29,24 @@ const renderLastMessage = (message, userId)=>{
 }
 const DialogItem= ({
           _id,
-          user,
-          text,
-          created_at, 
-          undread, 
           isMe, 
           partner,
+          author,
           currentDialogId,
           lastMessage,
           userId})=>(
 <Link to={`/dialog/${_id}`}>
   <div 
         className={classNames("dialogs__item", {
-          'dialogs__item--online':partner.isOnline,
+          'dialogs__item--online':partner._id === userId? author.isOnline :partner.isOnline,
           'dialogs__item--selected':currentDialogId === _id
         })}>
     <div className="dialogs__item-avatar">
-      <Avatar user={partner}/>
+      <Avatar user={partner._id === userId ? author :partner}/>
     </div>
     <div className="dialogs__item-info">
       <div className="dialogs__item-info-top">
-        <b>{partner.fullname}</b> 
+        <b>{partner._id === userId ? author.fullname :partner.fullname}</b> 
         <span>{getMessageTime(lastMessage.updatedAt)}</span>
       </div> 
       <div className="dialogs__item-info-bottom">

@@ -1,5 +1,7 @@
 .chat-input{
   padding:  calc(var(--main-size-text ) + 6px);
+  max-width: 1000px;
+  margin: 0 auto;
   position: relative;
   & > div:first-of-type{
     display: flex;
@@ -87,11 +89,16 @@
       }
     }
   }
-  input{
+  textArea{
+    background-color:var(--background-secondaryСolor);
+    border:none;
+    color:var(--color-text);
     font-size: var(--main-size-text );
-    padding: calc(var(--main-size-text ) - 8px) calc(var(--main-size-text ) - 3px) calc(var(--main-size-text ) + 6px);
+    &::placeholder{
+      color:var(--color-text-secondary);
+    }
     &:focus{
-      box-shadow: none;
+      box-shadow: none !important;
     }
   }
 }

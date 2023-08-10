@@ -1,9 +1,9 @@
 import PropsType from 'prop-types';
-import {SmileOutlined,CameraOutlined, AudioOutlined, CheckCircleOutlined ,CloseOutlined,LoadingOutlined} from '@ant-design/icons';
+import {SmileOutlined,FileOutlined, AudioOutlined, CheckCircleOutlined ,CloseOutlined,LoadingOutlined} from '@ant-design/icons';
 import { Input, Button } from 'antd';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-
+import isPhoto from '../../utils/helpers/isPhoto';
 import { UploadField } from '../../utils/helpers';
 import {UploadFiles} from '../'
 
@@ -62,10 +62,9 @@ const Chatinput = (props)=>{
                 className: 'chat-input_actions-upload'
               }}
               uploadProps={{
-                accept: '.jpg,.jpeg,.png,.gif,.bmp',
                 multiple:'multiple'
               }}>
-              <Button  type='link' shape='circle' icon={<CameraOutlined />} />
+              <Button  type='link' shape='circle' icon={<FileOutlined />} />
             </UploadField >
 
             {isLoading ?(

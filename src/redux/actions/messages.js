@@ -29,6 +29,12 @@ const Actions = {
     return  messagesApi.send(text,dialogId,attachments)
 
   },
+  setFilter:filter=>dispatch=>{
+    dispatch({
+      type:"MESSAGES:SET_FILTER",
+      payload:filter
+    })
+  },
   removeMessageById:(id)=>dispatch=>{
     
     if(window.confirm('Вы действительно хотите удалить сообщение?')){

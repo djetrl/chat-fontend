@@ -1,4 +1,3 @@
-
 import {Modal} from 'antd';
 import classNames from 'classnames';
 import PropsType from 'prop-types';
@@ -20,11 +19,14 @@ const Messages= ({
     currentDialog,
     isTyping,
     partner,
-    handleLoadNewMessage
+    handleLoadNewMessage,
+    loadingNewMessage,
+    toggleSidebarPartnerFunc
   }) =>{
   return(
     <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}px)` }}>
-    <div ref={blockRef} onScroll={(e)=>{handleLoadNewMessage(e,messageLength, currentDialog, items )}} className={classNames('messages', { 'messages--loading': isLoading })}>
+     {loadingNewMessage &&  <Spin size='large' tip="Загрузка сообщений..." className='SpinLoadingOldMessages'> </Spin>}
+    <div ref={blockRef} onScroll={(e)=>{handleLoadNewMessage(e,messageLength, currentDialog, items )}}  className={classNames('messages', { 'messages--loading': isLoading })}>
       {isLoading && !user ? (
         <Spin size='large' tip="Загрузка сообщений..."> </Spin>
       ) : items && !isLoading ? (
@@ -32,6 +34,7 @@ const Messages= ({
           items.map(item => (
             <Message
               {...item}
+              toggleSidebarPartnerFunc={user._id !== item.user._id ? toggleSidebarPartnerFunc: ()=>{}}
               isMe={user._id === item.user._id}
               onRemoveMessage={onRemoveMessage.bind(this,item._id )}
               setPreviewImage={setPreviewImage}

@@ -6,3 +6,4 @@ export {default as openNotification} from './openNotification';
 export {default as RequireAuth} from './RequireAuth.jsx';
 export {default as withRouter} from './withRouter';
 export {default as isAudio} from './isAudio';
+export {default as formBytes} from './formBytes';

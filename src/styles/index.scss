@@ -37,3 +37,55 @@ body::-webkit-scrollbar {
 a{
   text-decoration: none;
 }
+.wrapper{
+  overflow: hidden;
+}
+.ant-popover{
+  .ant-popover-inner{
+    background:var(--background-color);
+  }
+ .ant-popover-arrow:before{
+    background:var(--background-color) !important;
+  }
+  .ant-btn{
+    background:inherit;
+    border:none;
+    color:var(--color-text);
+    &:where(.css-dev-only-do-not-override-12upa3x).ant-btn-default:not(:disabled):hover{
+      color: var(--blue);
+      border-color:var(--blue);
+    }
+  }
+}
+.ant-modal-content{
+  background:var(--background-color) !important; 
+  label{
+    color:var(--color-text) !important;
+  }
+  .ant-modal-title{
+    background:var(--background-color) !important;
+    color:var(--color-text) !important;
+  }
+  .ant-select-selection-search,.ant-select-selector{
+    background:var(--background-color) !important; 
+    border-color: var(--background-secondaryСolor) !important;
+    color:var(--color-text) !important;
+  }
+  .anticon-close {
+    svg{
+      color:var(--color-text) !important;
+    }
+    
+  }
+  button{
+    background: var(--background-secondaryСolor) !important;
+    color:var(--color-text) !important;
+    border-color: var(--background-secondaryСolor) !important;
+  }
+  .ant-modal-close{
+    background:none !important;
+  }
+}
+.ant-empty-description{
+  color:var(--color-text) !important;
+}

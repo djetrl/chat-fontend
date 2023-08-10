@@ -32,6 +32,7 @@ export default (state = initialState,{type, payload} )=>{
         ...state,
         currentDialogId:payload
       };
+      
     default:
       return state
   }

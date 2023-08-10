@@ -1,13 +1,13 @@
-import { useEffect,useRef, useState} from "react";
+import React,{ useEffect,useRef, useState } from "react";
 import {connect} from 'react-redux';
 import { Empty } from "antd";
 import { find } from "lodash";
 import { messagesApi } from "../utils/api";
-import {messagesActions} from '../redux/actions'
+import {messagesActions, userActions} from '../redux/actions'
 import socket from "../core/socket";
-
 import { Messages as BaseMessages} from "../components";
-import { da } from "date-fns/locale";
+import Item from "antd/es/list/Item";
+const MemoizedBaseMessages= React.memo(BaseMessages);
 
 const Dialogs = ({
   currentDialog,
@@ -19,17 +19,20 @@ const Dialogs = ({
   removeMessageById,
   attachments,
   additionalLoadingMessage,
-  total
+  total,
+  SidebarPartner,
+  toggleSidebarPartner,
+  filter
 }) => {
   
   const [previewImage, setPreviewImage] = useState(null);
   const [blockHeight, setBlockHeight] = useState(135);
   const [isTyping, setIsTyping] = useState(false);
   const [messageLength, setMessageLength] = useState(15);
+  const [loadingNewMessage, setLoadingNewMessage] = useState(false);
+  const [filteredItem, setFilteredItem] = useState([])
   let typingTimeoutId = null;
-
   const messagesRef = useRef(null);
-
   const toggleIsTyping = () => {
     setIsTyping(true);
     clearInterval(typingTimeoutId);
@@ -42,6 +45,7 @@ const Dialogs = ({
   };
   useEffect(() => {
     socket.on('DIALOGS:TYPING', toggleIsTyping);
+    setMessageLength(Item.length)
   }, []);
   useEffect(() => {
     if (attachments.length) {
@@ -49,7 +53,7 @@ const Dialogs = ({
     } else {
       setBlockHeight(135);
     }
-  }, [attachments]);
+  }, [items.length, attachments]);
 
   useEffect(() => {
     if (currentDialog) {
@@ -64,29 +68,49 @@ const Dialogs = ({
   
   useEffect(() => {
     if(messagesRef.current){
-      messagesRef.current.scrollTo(0, 999999);
+      messagesRef.current.scrollBy(0, messagesRef.current.scrollHeight );
     }
-  }, [messagesRef.current, isTyping]);
+  }, [total, isTyping,filter]);
+  useEffect(()=>{
+    if(items){
+      if(filter){
+        messagesApi.findMessages(currentDialog._id, filter).then((message)=>{
+          setFilteredItem(message.data)
+          setLoadingNewMessage(false) 
+        }).catch(()=>{
+          setFilteredItem(items)
+        })
+      }else{
+        setFilteredItem(items)
+      }
+    }
+  },[filter])
 
   const handleLoadNewMessage =(e,messageLength=15,currentDialog,items)=>{
-    if(e.target.scrollTop >= 200  || e.target.scrollTop <= 200   ){
+    if(filter.trim() === ''){
+      if( e.target.scrollTop === 0 ){
         if(messageLength > 0){
-          console.log(messageLength < total - 15);
-              if(messageLength < total){
+              if((messageLength < total) && !loadingNewMessage){
+                setLoadingNewMessage(true)
               messagesApi.getAllByDialogId(currentDialog._id, messageLength).then((data)=>{
                 if(items[0] || items && data.data.messages > 0 ){
                   if(items[0]._id !== data.data.messages[0]._id){
                     additionalLoadingMessage(data.data.messages)
-                    setMessageLength(data.data.messages.length + messageLength)  
+                    setMessageLength(data.data.messages.length + messageLength) 
+                    setLoadingNewMessage(false) 
+                    e.target.scrollBy(0, 50 );
                   }
                 }
               })
             }
         }
     }
+    }
   }
 
-
+  const toggleSidebarPartnerFunc= ()=>{
+    toggleSidebarPartner(!SidebarPartner)
+  }
 
   if (!currentDialog) {
     return <Empty description="Откройте диалог" />;
@@ -94,10 +118,10 @@ const Dialogs = ({
 
 
   return (
-    <BaseMessages
+    <MemoizedBaseMessages
       user={user}
       blockRef={messagesRef}
-      items={items}
+      items={filter.trim() !=='' ? filteredItem:items}
       isLoading={isLoading && !user}
       onRemoveMessage={removeMessageById}
       messageLength={messageLength}
@@ -110,6 +134,8 @@ const Dialogs = ({
         user._id !== currentDialog.partner._id ? currentDialog.author : currentDialog.partner
       }
       handleLoadNewMessage={handleLoadNewMessage}
+      loadingNewMessage={loadingNewMessage}
+      toggleSidebarPartnerFunc={toggleSidebarPartnerFunc}
     />
   );
 };
@@ -118,10 +144,12 @@ export default connect(
   ({ dialogs, messages, user, attachments }) => ({
     currentDialog: find(dialogs.items, { _id: dialogs.currentDialogId }),
     items: messages.items,
+    filter: messages.filter,
     total: messages.total,
     isLoading: messages.isLoading,
     attachments: attachments.items,
     user: user.data,
+    SidebarPartner: user.SidebarPartner
   }),
-  messagesActions,
+  {...messagesActions,...userActions}
 )(Dialogs);

@@ -34,7 +34,9 @@ const Sidebar = ({user,
                   emailInputSetting,
                   setEmailInputSetting,
                   onSelectFiles,
-                  sendChangeProfile
+                  sendChangeProfile,
+                  onSelectTheme,
+                  theme
                 })=>{
   const options = users.map(user=>{
     return   <Option key={user._id}>{user.fullname}</Option>
@@ -44,7 +46,7 @@ const Sidebar = ({user,
     <div className="chat__sidebar-header">
     { visibleSettings ? (
         <div >
-        <ArrowLeftOutlined onClick={onCloseSettings} style={{'cursor':'pointer'}} />
+        <Button  onClick={onCloseSettings} type='link' shape='circle' icon={<ArrowLeftOutlined />}/> 
         <span> Настройки</span>
     </div> ):(
         <div>
@@ -54,7 +56,7 @@ const Sidebar = ({user,
     )}
         <div style={{"display":'flex'}}>
         {visibleSettings ? <Button  onClick={toggleVisibleSettingsEdit} type='link' shape='circle' icon={<EditOutlined />}/>  :null}
-        <Popover content={
+        <Popover   content={
         <div className='chat__sidebar-popover'> 
           <Button onClick={onShowModalCreateDialog}>Создать диалог</Button>
           <Button onClick={onShowSettings}>Настройки</Button>
@@ -101,29 +103,50 @@ const Sidebar = ({user,
           </div>
         ):(
           <div  className="chat__sidebar-setting ">
-            <div className="avatar_wrapper" onClick={()=>{
-                 if(user.avatar[0]){
-                  setPreviewImage(user.avatar[0].url)
-                 }
-              }}>
-                <Avatar user={user}/>
-            </div>
-
-               <div className='chat__sidebar-setting-item'>
-                  <UserOutlined />
-                  <div className="chat__sidebar-setting-item-info">
-                    <p>{user.fullname}</p>
-                    <p>userName</p>
-                  </div>
-               </div >
-
-               <div className='chat__sidebar-setting-item'>
-                <MailOutlined />
-                <div className="chat__sidebar-setting-item-info">
-                  <p>{user.email}</p>
-                  <p>email</p>
+            <div className="chat__sidebar-setting-chapter">
+                <div className="avatar_wrapper" onClick={()=>{
+                    if(user.avatar[0]){
+                      setPreviewImage(user.avatar[0].url)
+                    }
+                  }}>
+                    <Avatar user={user}/>
                 </div>
-               </div>
+
+                  <div className='chat__sidebar-setting-item'>
+                      <UserOutlined />
+                      <div className="chat__sidebar-setting-item-info">
+                        <p>{user.fullname}</p>
+                        <p>userName</p>
+                      </div>
+                  </div >
+
+                  <div className='chat__sidebar-setting-item'>
+                    <MailOutlined />
+                    <div className="chat__sidebar-setting-item-info">
+                      <p>{user.email}</p>
+                      <p>email</p>
+                    </div>
+                  </div>
+            </div>
+            <div className="chat__sidebar-setting-chapter chat__sidebar-setting-chapter-edit">
+              
+               
+
+                  <div className='chat__sidebar-setting-itemEdit'>
+                      <h4>Theme</h4>
+                      <div className="chat__sidebar-setting-item-info">
+                          <label htmlFor="valueTheme1"> 
+                            <input type="radio" name="Theme" value="light" id='valueTheme1' onChange={onSelectTheme} checked={theme==="light"}/>
+                            Cветлая
+                           </label>
+
+                          <label htmlFor="valueTheme2">
+                            <input type="radio" name="Theme" value="dark" id='valueTheme2' onChange={onSelectTheme} checked={theme==="dark"}/> 
+                            Темная
+                          </label>
+                      </div>
+                  </div>
+            </div>
          </div>
         ) }
 </>
