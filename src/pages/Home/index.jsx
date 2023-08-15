@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, lazy} from 'react';
 import {connect } from 'react-redux';
-import {Messages,Chatinput,Status,Sidebar,SidebarPartner} from '../../containers';
+import {Messages,Chatinput,Status,Sidebar} from '../../containers';
 import { withRouter } from '../../utils/helpers';
 import { dialogsActions } from '../../redux/actions';
-
 import './Home.scss';
+
+const SidebarPartnerLazy = lazy(()=>import('../../containers/SidebarPartner'));
+
 const Home = (props)=>{
   const {setCurrentDialogId,user} = props;
   useEffect(()=>{
@@ -26,7 +28,7 @@ const Home = (props)=>{
           </div>
             )
           }
-          <SidebarPartner/>
+          <SidebarPartnerLazy/>
       </div>
 
     </section>

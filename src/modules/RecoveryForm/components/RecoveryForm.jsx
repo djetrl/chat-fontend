@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Button, Block} from '../../../components';
 import { validateField } from '../../../utils/helpers';
 
-const LoginForm = (props)=>{
+const RecoveryForm = (props)=>{
   const {
     values,
     touched,
@@ -18,12 +18,12 @@ const LoginForm = (props)=>{
   return(     
     <div>
        <div className="auth__top">
-        <h2>Войти в аккаунт</h2>
-        <p>Пожалуйста, войдите в свой аккаунт</p>
+        <h2>Восстановления доступа к аккаунту</h2>
+        <p>Пожалуйста, введите свой E-Mail</p>
       </div>
       <Block>
       <Form
-               className="login-form"
+               className="recovery-form"
                onSubmit={handleSubmit}>
               <Form.Item
                  validateStatus={
@@ -40,24 +40,6 @@ const LoginForm = (props)=>{
                         onBlur={handleBlur}
                         id='email'/>
                </Form.Item>
-               <Form.Item
-                    validateStatus={
-                      validateField('password', touched,errors)
-                    }
-                    help={!touched.password ? '':errors.password}
-                     hasFeedback>
-                 <Input
-                   type="password"
-                   id='password'
-                   placeholder="Пароль"
-                   size='large'
-                   value={values.password}
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                   prefix={<LockOutlined className="site-form-item-icon" />}
- 
-                 />
-               </Form.Item>
                <Form.Item>
                 { isSubmitting && !isValid && <span>Ошибка</span>}
                  <Button  
@@ -71,12 +53,11 @@ const LoginForm = (props)=>{
                  </Button>
                
                </Form.Item>
-               <Link className='auth__register-link' to='/signup'>Зарегистрироваться </Link>
-               <Link className='auth__register-link' to='/signin/recovery/'>Восстановления Пароля </Link>
+               <Link className='auth__register-link' to='/signin'>Вернуться </Link>
              </Form>
         </Block>
     </div>
   )
 }
 
-export default LoginForm;
+export default RecoveryForm;

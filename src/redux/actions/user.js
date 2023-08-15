@@ -57,6 +57,27 @@ const Actions = {
         });
     });
   },
+
+  fetchRecoverPassword: postData => dispatch => {
+    return userApi.recoverPassword(postData).then((data) => {
+        openNotification({
+          title: "Отлично!",
+          text: "Новый пароль отправлен на почту.",
+          duration:0,
+          type: "success"
+        });
+        localStorage.removeItem('token');
+        // dispatch(Actions.fetchRecoverPassword());
+        dispatch(Actions.setIsAuth(true))
+      return data ;
+    }).catch(()=>{
+        openNotification({
+          title: "Ошибка при восстановление",
+          text: "Не найдин аккаунт с такие E-Mail адресс",
+          type: "error"
+        });
+    });
+  },
   fetchUserRegister: postData => dispatch => {
     return userApi.signUp(postData)
   }

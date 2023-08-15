@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { userApi,dialogsApi, filesApi} from '../utils/api';
 import { Sidebar  } from "../components";
 import { userActions } from '../redux/actions';
+import { openNotification } from '../utils/helpers';
 // const MemoizedStatus= memo(Sidebar);
 const SidebarContainer = ({user,updateData,theme,setTheme})=>{
   const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
@@ -17,6 +18,9 @@ const SidebarContainer = ({user,updateData,theme,setTheme})=>{
   const [avatarSetting, setAvatarSetting] = useState(user && user.avatar);
   const [nameInputSetting, setNameInputeSetting] = useState(user && user.fullname);
   const [emailInputSetting, setEmailInputSetting] = useState(user && user.email);
+  const [passwordOld, setPasswordOld] = useState('');
+  const [passwordNew, setPasswordNew] = useState('');
+  const [passwordOldVerify, setPasswordOldVerify] = useState(false);
   const onCloseModalCreateDialog = ()=>{
     setVisibleModalCreateDialog(false);
   };
@@ -117,8 +121,79 @@ const sendChangeProfile =(e)=>{
       })
   }
 }
+
 const onSelectTheme = (e)=>{
   setTheme(e.target.value)
+}
+const passwordVerificationFunc = (event)=>{
+  event.preventDefault();
+  if(passwordOldVerify === false){
+    userApi.passwordVerification({
+      email: user.email,
+      password: passwordOld
+    }).then((response)=>{
+      console.log(response.data.status);
+        if(response.data.status === 'success'){
+          setPasswordOldVerify(true)
+          openNotification({
+            title: "Верный пароль",
+            text: "",
+            type: "success"
+          });
+        }    
+    }).catch(({response})=>{
+      setPasswordOldVerify(false)
+      if(response.data.message === "Incorrect password"){
+        openNotification({
+          title: "Ошибка при проверки пароля",
+          text: "Неверный пароль!",
+          type: "error"
+        });
+      }else{
+        openNotification({
+          title: "Ошибка при проверки пароля",
+          text: "Неизвестная ошибка,  проблемы с сервером ",
+          type: "error"
+        });
+      }
+    })
+  }else{
+    if(passwordOld !== passwordNew){
+      userApi.updatePassword({password:passwordNew}).then(({data})=>{
+        openNotification({
+          title: "Операция прошла успешна",
+          text: "Пароль успешно изменён",
+          type: "success"
+        });
+    }).catch(({response})=>{
+      openNotification({
+        title: "Ошибка при изменение пароля",
+        text: "Неизвестная ошибка,  проблемы с сервером ",
+        type: "error"
+      });
+    }).finally(()=>{
+      setPasswordOldVerify(false)
+      setPasswordNew('');
+      setPasswordOld('')
+    })
+    }else{
+      openNotification({
+        title: "Ошибка при изменение пароля",
+        text: "Новый пароль должен быть отличным , от старого пароля",
+        type: "error"
+      });
+      setPasswordOldVerify(false)
+      setPasswordNew('');
+      setPasswordOld('')
+    }
+
+    
+    
+  }
+}
+const closeAccount = ()=>{
+  localStorage.removeItem('token');
+  window.location.replace("/signin");
 }
   return <Sidebar user={user} 
                   inputValue={inputValue} 
@@ -150,6 +225,14 @@ const onSelectTheme = (e)=>{
                   onSelectFiles={onSelectFiles}
                   onSelectTheme={onSelectTheme}
                   theme={theme}
+
+                  setPasswordOld={setPasswordOld}
+                  passwordOld={passwordOld}
+                  passwordNew={passwordNew}
+                  setPasswordNew={setPasswordNew}
+                  passwordOldVerify={passwordOldVerify}
+                  passwordVerificationFunc={passwordVerificationFunc}
+                  closeAccount={closeAccount}
                   />
 }
 

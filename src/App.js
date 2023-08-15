@@ -1,17 +1,21 @@
 import {Routes, Route} from 'react-router-dom';
 import { connect } from 'react-redux';
-import {Auth,Home} from './pages';
+import {Home} from './pages';
 import {RequireAuth} from './utils/helpers'
+import {lazy} from 'react';
+
+const AuthLazy = lazy(()=>import('./pages/Auth/index'))
+
 function App(props) {
    const { isAuth,theme } = props;
 
   return (
-    //theme
     <div className="wrapper" data-theme={theme}>
       <Routes>  
-        <Route  path='/signin/*' Component={Auth}  />
-        <Route  path='/signup' Component={Auth}  />
-        <Route  path='/signup/verify/*' Component={Auth}  />
+        <Route  path='/signin/*' Component={AuthLazy}  />
+        <Route  path='/signup' Component={AuthLazy}  />
+        <Route  path='/signup/verify/*' Component={AuthLazy}  />
+        <Route  path='/signin/recovery/*' Component={AuthLazy}  />
         <Route path='*' element={
             <RequireAuth isAuth={isAuth}>
               <Home/>

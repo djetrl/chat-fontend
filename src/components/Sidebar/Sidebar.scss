@@ -27,4 +27,8 @@
       color:rgb(160, 160, 160);
     }
   }
+  h3{
+    font-size: calc(var(--main-size-text) + 3px);
+    padding-bottom:calc(var(--main-size-text));
+  }
 }

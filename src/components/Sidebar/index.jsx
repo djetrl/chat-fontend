@@ -36,7 +36,14 @@ const Sidebar = ({user,
                   onSelectFiles,
                   sendChangeProfile,
                   onSelectTheme,
-                  theme
+                  theme,
+                  setPasswordOld,
+                  passwordOld,
+                  passwordNew,
+                  setPasswordNew,
+                  passwordOldVerify,
+                  passwordVerificationFunc,
+                  closeAccount
                 })=>{
   const options = users.map(user=>{
     return   <Option key={user._id}>{user.fullname}</Option>
@@ -60,6 +67,7 @@ const Sidebar = ({user,
         <div className='chat__sidebar-popover'> 
           <Button onClick={onShowModalCreateDialog}>Создать диалог</Button>
           <Button onClick={onShowSettings}>Настройки</Button>
+          <Button onClick={closeAccount}>Выйти с аккаунта</Button>
          </div>
         
         } title={null} trigger={"click"}>
@@ -99,6 +107,14 @@ const Sidebar = ({user,
                   (user.avatar.length >= 1 ?  (avatarSetting[0].url !== user.avatar[0].url) : avatarSetting.length === 1)   ? 
                   <input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} />:null
                   }
+            </form>
+            <form  className="profile-form" onSubmit={passwordVerificationFunc}>
+              <div className="input-info-container">
+                <h3>Смена пароля</h3>
+                <Input type="password" name='passwordOld' value={passwordOld}  onChange={(e)=>{setPasswordOld(e.target.value)}} placeholder='старый пароль'/>
+                {passwordOldVerify && <Input type="password" name='passwordNew' value={passwordNew} onChange={(e)=>{setPasswordNew(e.target.value)}}  placeholder='новый пароль' />}
+              </div>      
+              {passwordOld || passwordNew ? (<input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} />  ):null}
             </form>
           </div>
         ):(
