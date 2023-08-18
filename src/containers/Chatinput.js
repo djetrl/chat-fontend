@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { filesApi } from '../utils/api';
 import { connect } from "react-redux";
 import socket from '../core/socket';
@@ -34,7 +34,11 @@ const ChatInput = props => {
     user,
   } = props;
 
-  if (!currentDialogId) {
+  if (!currentDialogId || props.dialogs.items.filter(item => item._id === currentDialogId).length === 0) {
+    console.log('render');
+    if(currentDialogId){
+      window.location.replace("/");
+    }
     return null;
   }
 
@@ -85,7 +89,7 @@ const ChatInput = props => {
   };
 
 
-  const addEmoji = ({shortcodes}) => {
+  const addEmoji = ({ shortcodes }) => {
     setValue((value + ' ' + shortcodes).trim());
   };
 
@@ -100,9 +104,9 @@ const ChatInput = props => {
   const sendMessage = () => {
     if (isRecording) {
       mediaRecorder.stop();
-    } else if ((value && value.trim() !== '') || attachments.length !== 0 ) {
+    } else if ((value && value.trim() !== '') || attachments.length !== 0) {
       fetchSendMessage({
-        text:value.trim() !=='' ? value: null,
+        text: value.trim() !== '' ? value : null,
         dialogId: currentDialogId,
         attachments: attachments.map(file => file.uid),
       });
@@ -112,17 +116,17 @@ const ChatInput = props => {
   };
 
   const handleSendMessage = e => {
-    
-      if(value.trim() !==''){
-        socket.emit('DIALOGS:TYPING', { dialogId: currentDialogId, user });
-      }
-      if (e.which == 13) {
-        setValue('')
-      }
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        sendMessage();
-      }
+
+    if (value.trim() !== '') {
+      socket.emit('DIALOGS:TYPING', { dialogId: currentDialogId, user });
+    }
+    if (e.which == 13) {
+      setValue('')
+    }
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   const onHideRecording = () => {
@@ -132,7 +136,7 @@ const ChatInput = props => {
   const onSelectFiles = async files => {
     let uploaded = [];
     for (let i = 0; i < files.length; i++) {
-      if(i < 7){
+      if (i < 7) {
         const file = files[i];
         const uid = Math.round(Math.random() * 1000);
         uploaded = [
@@ -186,11 +190,11 @@ const ChatInput = props => {
   );
 };
 export default connect(
-                        ({dialogs, attachments, user})=>({
-                          dialogs, 
-                          attachments: attachments.items, 
-                          user:user.data
-                        }) , 
-                        {...messagesActions, ...attachmentsActions} )
-                        (ChatInput);
+  ({ dialogs, attachments, user }) => ({
+    dialogs,
+    attachments: attachments.items,
+    user: user.data
+  }),
+  { ...messagesActions, ...attachmentsActions })
+  (ChatInput);
 // TODO: После отправленния одного сообщеня с фото после этого  до перезагрузки страницы  нельзя больше отправить фото исправить

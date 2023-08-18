@@ -5,7 +5,7 @@ import { init } from 'emoji-mart'
 import  {Popover, Button } from 'antd'
 import {EllipsisOutlined,EyeOutlined } from '@ant-design/icons';
 import reactStringReplace from 'react-string-replace';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy } from 'react';
 import {Time, IconReaded,Avatar} from '../';
 import { convertCurrentTime , isAudio} from '../../utils/helpers';
 import waveSvg from '../../assets/img/wave.svg';
@@ -94,7 +94,7 @@ const Message= ({user, text, date, isMe, readed, attachments,isTyping,onRemoveMe
           <EyeOutlined style={{color:'white', fontSize:18}} />
           </div>
         
-        <img src={item.url}  alt={item.filename} />
+        <img src={item.url} loading={lazy}  alt={item.filename} />
       </div>  
       )
     }else if(item.ext === 'application/octet-stream'){

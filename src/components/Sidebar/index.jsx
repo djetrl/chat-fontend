@@ -43,7 +43,8 @@ const Sidebar = ({user,
                   setPasswordNew,
                   passwordOldVerify,
                   passwordVerificationFunc,
-                  closeAccount
+                  closeAccount,
+                  onDeleteAccount
                 })=>{
   const options = users.map(user=>{
     return   <Option key={user._id}>{user.fullname}</Option>
@@ -109,12 +110,15 @@ const Sidebar = ({user,
                   }
             </form>
             <form  className="profile-form" onSubmit={passwordVerificationFunc}>
-              <div className="input-info-container">
+              <div className="input-info-container" style={{'width':'100%'}}>
                 <h3>Смена пароля</h3>
                 <Input type="password" name='passwordOld' value={passwordOld}  onChange={(e)=>{setPasswordOld(e.target.value)}} placeholder='старый пароль'/>
                 {passwordOldVerify && <Input type="password" name='passwordNew' value={passwordNew} onChange={(e)=>{setPasswordNew(e.target.value)}}  placeholder='новый пароль' />}
               </div>      
               {passwordOld || passwordNew ? (<input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} />  ):null}
+            </form>
+            <form  className="profile-form" >
+                <Button onClick={onDeleteAccount} type='primary' danger  className='deleteBtn'>Удалить аккаунта</Button> 
             </form>
           </div>
         ):(

@@ -32,3 +32,11 @@
     padding-bottom:calc(var(--main-size-text));
   }
 }
+
+.deleteBtn{
+  margin: calc(var(--main-size-text) + 1px) ;
+  padding: calc(var(--main-size-text) + 6px) calc(var(--main-size-text) + 20px);
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}

@@ -291,7 +291,8 @@
         }
       }
     &-size{
-      color:var(--blue-light);
+      color:var(--background-color);
+      opacity: 0.8;
       padding-top: 3px;
     }
     padding:0px 0 10px 0;
@@ -314,7 +315,7 @@
 .message--isMe{
   .message__file{
     border-radius: 12px 12px 0px 12px;
-    background-color:var(--color-text);
+    background-color:var(--blue);
     &-header{
       &-item{
         color:var(--background-color)

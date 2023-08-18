@@ -59,7 +59,6 @@ const Dialogs = ({
     if (currentDialog) {
       fetchMessages(currentDialog._id);
     }
-    
     socket.on('SERVER:NEW_MESSAGE', onNewMessage);
 
     return () => socket.removeListener('SERVER:NEW_MESSAGE', onNewMessage);
@@ -115,7 +114,6 @@ const Dialogs = ({
   if (!currentDialog) {
     return <Empty description="Откройте диалог" />;
   }
-
 
   return (
     <MemoizedBaseMessages

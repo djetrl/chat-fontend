@@ -8,13 +8,13 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-const UploadFiles = ({attachments, removeAttachment}) => {
+const UploadFiles = ({ attachments, removeAttachment }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState(attachments)
-  useEffect(()=>{
+  useEffect(() => {
     setFileList(attachments)
-  },[attachments])
+  }, [attachments])
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -33,19 +33,19 @@ const UploadFiles = ({attachments, removeAttachment}) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        onRemove={file=>removeAttachment(file)}
+        onRemove={file => removeAttachment(file)}
       >
       </Upload>
-      <Modal 
-            open={previewOpen}  
-            footer={null} 
-            onCancel={handleCancel}>
-        <img alt="example" style={{width: '100%' }} src={previewImage} />
+      <Modal
+        open={previewOpen}
+        footer={null}
+        onCancel={handleCancel}>
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </>
   );
 };
 UploadFiles.defaultProps = {
-  attachments:[]
+  attachments: []
 }
 export default UploadFiles;
