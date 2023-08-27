@@ -25,7 +25,7 @@ const Messages = ({
   scrollByElemnt
 }) => {
   return (
-    <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}px)` }}>
+    <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}%)` }}>
       {(loadingNewMessage || (isLoading && user)) && <Spin size='large' tip="Загрузка сообщений..." className='SpinLoadingOldMessages'> </Spin>}
       <div ref={blockRef} onScroll={(e) => { handleLoadNewMessage(e, messageLength, currentDialog, items) }} className={classNames('messages', { 'messages--loading': isLoading })}>
         {items && !isLoading ? (

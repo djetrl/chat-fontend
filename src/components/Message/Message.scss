@@ -3,6 +3,7 @@
   $self: &; 
   display: flex;
   margin-bottom: calc(var(--main-size-text ) + 1px);
+
   &__avatar{
     display:flex;
     flex-direction: column-reverse;
@@ -70,6 +71,7 @@
       max-width: calc(var(--main-size-text )  * 31.4285714);
       margin-bottom: calc(var(--main-size-text ) + 6px);
       position: relative;
+      
   }
   &__icon{
     &-readed{
@@ -164,8 +166,14 @@
     word-break: break-all;
   }
   &__date{
-    font-size:  calc(var(--main-size-text ) - 2px);
+    
+    width: 100%;
+    height: 10px;
+    white-space: nowrap;
+    font-size: calc(var(--main-size-text) - 2px);
     opacity: 0.5;
+    position: absolute;
+  
   }
   &__text{
     color: #fff;
@@ -174,7 +182,11 @@
   &--isMe{
     display: flex;
     flex-direction: row-reverse;
-
+    #{$self}__date{
+      bottom: -10px;
+      right:calc(var(--main-size-text) + 42px);
+    
+    }
     #{$self}__content{
        margin-bottom: calc(var(--main-size-text ) + 1px);
        flex-direction: row-reverse;
@@ -398,6 +410,7 @@
     position: relative;
 }
   &-info{
+    
     text-align: left;
     margin-left: 10px;
     border-radius:5px;
@@ -405,7 +418,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
-
+    
   }
 }
 

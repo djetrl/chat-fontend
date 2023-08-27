@@ -49,7 +49,7 @@ const RecoveryForm = (props)=>{
                         htmlType="submit" 
                         className="login-form-button" 
                         size='large'>
-                  Войти в аккаунт
+                  Восстановить аккаунт
                  </Button>
                
                </Form.Item>

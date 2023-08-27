@@ -1,22 +1,8 @@
  import {IconReaded, Avatar} from '..'
  import classNames from 'classnames';
- import format from 'date-fns/format';
- import isToday from 'date-fns/isToday';
  import { Link } from 'react-router-dom';
+ import { getMessageTime } from '../../utils/helpers';
 
-const getMessageTime = createdAt =>{
-  if(isToday(new Date(createdAt))){
-    return format(
-      new Date(createdAt),
-      "HH:mm"
-    )
-  }else{
-    return format(
-      new Date(createdAt),
-      "dd.MM.yyyy"
-    )
-  }}
-  
 const renderLastMessage = (message, userId)=>{
   let text ='';
   if(!message.text && message.attachments.length){

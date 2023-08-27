@@ -6,12 +6,12 @@ import { Popover, Button } from 'antd'
 import { EllipsisOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import reactStringReplace from 'react-string-replace';
 import { useState, useRef, useEffect, } from 'react';
-import { Time, IconReaded, Avatar, Video } from '../';
+import {IconReaded, Avatar, Video } from '../';
 import { convertCurrentTime, isAudio } from '../../utils/helpers';
 import waveSvg from '../../assets/img/wave.svg';
 import playSvg from '../../assets/img/play.svg';
 import pauseSvg from '../../assets/img/pause.svg';
-import { formBytes } from '../../utils/helpers';
+import { formBytes,getMessageTime } from '../../utils/helpers';
 import './Message.scss';
 
 
@@ -85,7 +85,7 @@ const MessageFile = ({ item }) => {
   )
 }
 
-const Message = ({ user, text,scrollByElemnt, date, isMe, readed, addEmbeddedMessage, embeddedMessage, attachments, isTyping, onRemoveMessage, setPreviewImage, toggleSidebarPartnerFunc, _id }) => {
+const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbeddedMessage, embeddedMessage, attachments, isTyping, onRemoveMessage, setPreviewImage, toggleSidebarPartnerFunc, _id }) => {
   init({ data })
   const renderAttachment = (item) => {
     if (item.ext !== 'application/octet-stream' && item.ext.split('/')[0] === 'image') {
@@ -211,6 +211,7 @@ const Message = ({ user, text,scrollByElemnt, date, isMe, readed, addEmbeddedMes
               )}
             </div>
           }
+            {createdAt && <span className="message__date">{getMessageTime(createdAt)}</span>}
           {(attachments[0] && (attachments[0].ext.split('/')[0] === 'image' && text) || !text) && (
             <div className={classNames("message__attachments", {
               "message-attachments-many": attachments.length > 1,
@@ -219,8 +220,6 @@ const Message = ({ user, text,scrollByElemnt, date, isMe, readed, addEmbeddedMes
               {attachments.map((item) => (renderAttachment(item)))}
             </div>
           )}
-
-          {date && <span className="message__date"><Time date={date} /></span>}
         </div>
       </div>
     </div>

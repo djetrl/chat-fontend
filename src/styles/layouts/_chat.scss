@@ -321,3 +321,8 @@
     color:white;
   }
 }
+.ant-modal-content:has(.ant-modal-body img){
+   .ant-modal-close{
+    display: none;
+   }
+}
