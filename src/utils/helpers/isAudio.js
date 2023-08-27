@@ -3,5 +3,5 @@ export default attachments => {
     return null;
   }
   const file = attachments[0];
-  return attachments.length && file.ext === "application/octet-stream";
+  return attachments.length && file.ext === "application/octet-stream" && file.url.split('.')[1] === 'webm';
 };

@@ -7,3 +7,4 @@ export {default as RequireAuth} from './RequireAuth.jsx';
 export {default as withRouter} from './withRouter';
 export {default as isAudio} from './isAudio';
 export {default as formBytes} from './formBytes';
+export {default as TextVoiceActing} from './TextVoiceActing';

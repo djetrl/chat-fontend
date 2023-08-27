@@ -49,12 +49,21 @@ const Actions = {
         dispatch(Actions.fetchUserData());
         dispatch(Actions.setIsAuth(true))
       return data;
-    }).catch(()=>{
+    }).catch((err)=>{
+
+      if(err.response.data.message === "account not verified"){
+        openNotification({
+          title: "Ошибка при авторизации",
+          text: "ваш аккаунт не подтверждён. перейдите по ссылке в письме, которое было отправлено вам на почту",
+          type: "error"
+        });
+      }else{
         openNotification({
           title: "Ошибка при авторизации",
           text: "Неверный логин или пароль",
           type: "error"
         });
+      }
     });
   },
 

@@ -13,3 +13,4 @@ export {default as FormField } from './FormField';
 export {default as Sidebar } from './Sidebar';
 export {default as UploadFiles } from './UploadFiles';
 export {default as SidebarPartner } from './SidebarPartner';
+export {default as Video} from './Video';

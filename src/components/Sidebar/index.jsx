@@ -1,7 +1,7 @@
 
 import {TeamOutlined, FormOutlined,PlusOutlined ,MailOutlined ,UserOutlined,ArrowLeftOutlined,EditOutlined} from '@ant-design/icons';
 import Avatar from '../Avatar';
-import { Button,Modal , Select,Input,Form,Popover } from 'antd';
+import { Button,Modal , Select,Input,Form,Popover, Image } from 'antd';
 import { UploadField } from '../../utils/helpers';
 import {Dialogs} from '../../containers';
 import './Sidebar.scss'
@@ -23,9 +23,7 @@ const Sidebar = ({user,
                   selectedUserId,
                   visibleSettings,
                   onCloseSettings,
-                  previewImage,
                   avatarSetting,
-                  setPreviewImage,
                   onShowSettings,
                   visibleSettingsEdit,
                   toggleVisibleSettingsEdit,
@@ -103,8 +101,8 @@ const Sidebar = ({user,
                           <Input type="email" name='email' value={emailInputSetting} onChange={(e)=>{setEmailInputSetting(e.target.value)}}  placeholder='почта' />
                         </div>
                   {
-                  (nameInputSetting !== user.fullname) ||
-                  (emailInputSetting !== user.email) ||
+                  (nameInputSetting.trim() !== user.fullname.trim()) ||
+                  (emailInputSetting.trim() !== user.email.trim()) ||
                   (user.avatar.length >= 1 ?  (avatarSetting[0].url !== user.avatar[0].url) : avatarSetting.length === 1)   ? 
                   <input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} />:null
                   }
@@ -124,12 +122,8 @@ const Sidebar = ({user,
         ):(
           <div  className="chat__sidebar-setting ">
             <div className="chat__sidebar-setting-chapter">
-                <div className="avatar_wrapper" onClick={()=>{
-                    if(user.avatar[0]){
-                      setPreviewImage(user.avatar[0].url)
-                    }
-                  }}>
-                    <Avatar user={user}/>
+                <div className="avatar_wrapper" >
+                  {user && user.avatar[0] ? <Image  src={user.avatar[0].url} alt={user.avatar[0].filename} />:  <Avatar user={user}/>}
                 </div>
 
                   <div className='chat__sidebar-setting-item'>
@@ -177,11 +171,6 @@ const Sidebar = ({user,
     </div>
     )
 }
-      <Modal open={!!previewImage} onCancel={() => setPreviewImage(null)} footer={null} className={'chat__sidebar-setting-modal-avatar'}>
-        {  
-         <img src={previewImage} style={{ width: '100%' }} alt="Preview" />
-        }
-      </Modal>
       <Modal title="Создать диалог" 
               open={visibleModalCreateDialog} 
               onOk={onModalOk} 

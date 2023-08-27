@@ -14,7 +14,7 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
+
   const [avatarSetting, setAvatarSetting] = useState(user && user.avatar);
   const [nameInputSetting, setNameInputeSetting] = useState(user && user.fullname);
   const [emailInputSetting, setEmailInputSetting] = useState(user && user.email);
@@ -161,7 +161,7 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
           });
         } else {
           openNotification({
-            title: "Ошибка при проверки пароля",
+            title: "Ошибкleshadjet@gmail.comа при проверки пароля",
             text: "Неизвестная ошибка,  проблемы с сервером ",
             type: "error"
           });
@@ -243,8 +243,6 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
     onChangeTextArea={onChangeTextArea}
     messageText={messageText}
     onModalOk={onAddDialog}
-    previewImage={previewImage}
-    setPreviewImage={setPreviewImage}
     users={users}
     visibleSettingsEdit={visibleSettingsEdit}
     toggleVisibleSettingsEdit={toggleVisibleSettingsEdit}

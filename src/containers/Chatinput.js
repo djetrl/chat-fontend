@@ -5,7 +5,7 @@ import socket from '../core/socket';
 
 import { Chatinput as ChatInputBase } from "../components";
 
-import { attachmentsActions, messagesActions } from "../redux/actions";
+import { attachmentsActions, messagesActions , embeddedMessageActions} from "../redux/actions";
 
 const ChatInput = props => {
   const [value, setValue] = useState('');
@@ -32,10 +32,12 @@ const ChatInput = props => {
     setAttachments,
     removeAttachment,
     user,
+    theme,
+    embeddedMessage,
+    setEmbeddedMessage
   } = props;
 
   if (!currentDialogId || props.dialogs.items.filter(item => item._id === currentDialogId).length === 0) {
-    console.log('render');
     if(currentDialogId){
       window.location.replace("/");
     }
@@ -109,9 +111,11 @@ const ChatInput = props => {
         text: value.trim() !== '' ? value : null,
         dialogId: currentDialogId,
         attachments: attachments.map(file => file.uid),
+        embeddedMessage: embeddedMessage._id
       });
       setValue('');
       setAttachments([]);
+      setEmbeddedMessage({})
     }
   };
 
@@ -135,8 +139,10 @@ const ChatInput = props => {
 
   const onSelectFiles = async files => {
     let uploaded = [];
+    const fileType =files[0].type.split('.')[0];
     for (let i = 0; i < files.length; i++) {
-      if (i < 7) {
+      if (i < 7 && (fileType === files[i].type.split('.')[0])) {
+        console.log(files[i]);
         const file = files[i];
         const uid = Math.round(Math.random() * 1000);
         uploaded = [
@@ -149,9 +155,7 @@ const ChatInput = props => {
         ];
         setAttachments(uploaded);
         // eslint-disable-next-line no-loop-func
-        console.log(file);
         await filesApi.upload(file).then(({ data }) => {
-          console.log(data);
           uploaded = uploaded.map(item => {
             if (item.uid === uid) {
               return {
@@ -169,7 +173,6 @@ const ChatInput = props => {
     setAttachments(uploaded);
   };
 
-
   return (
     <ChatInputBase
       value={value}
@@ -186,15 +189,20 @@ const ChatInput = props => {
       onHideRecording={onHideRecording}
       isLoading={isLoading}
       removeAttachment={removeAttachment}
+      theme={theme}
+      embeddedMessage={embeddedMessage}
     />
   );
 };
+
 export default connect(
-  ({ dialogs, attachments, user }) => ({
+  ({ dialogs, attachments, user,embeddedMessage }) => ({
     dialogs,
     attachments: attachments.items,
-    user: user.data
+    user: user.data,
+    theme:user.theme,
+    embeddedMessage:embeddedMessage.items
   }),
-  { ...messagesActions, ...attachmentsActions })
+  { ...messagesActions, ...attachmentsActions, ...embeddedMessageActions })
   (ChatInput);
 // TODO: После отправленния одного сообщеня с фото после этого  до перезагрузки страницы  нельзя больше отправить фото исправить

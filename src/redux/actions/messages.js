@@ -25,8 +25,8 @@ const Actions = {
     type:'MESSAGES:SET_IS_LOADING',
     payload:bool 
   }),
-  fetchSendMessage: ({text, dialogId, attachments})=>dispatch=>{
-    return  messagesApi.send(text,dialogId,attachments)
+  fetchSendMessage: ({text, dialogId, attachments,embeddedMessage})=>dispatch=>{
+    return  messagesApi.send(text,dialogId,attachments,embeddedMessage)
 
   },
   setFilter:filter=>dispatch=>{

@@ -6,8 +6,8 @@
 .status::before {
   display: block;
   position: absolute;
-  top: 5px;
-  left: -11px;
+  top: calc(var(--main-size-text) - 9px);
+  left: calc(var(--main-size-text) - 25px);
   content: "";
   width: 6px;
   height: 6px;

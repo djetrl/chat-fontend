@@ -38,7 +38,6 @@
       padding:calc(var(--main-size-text ) + 7px );
       height: calc(var(--main-size-text ) + 44px );
       border-bottom: 1px solid var(--background-secondaryСolor);
-      margin-bottom:calc(var(--main-size-text ) + 6px );
       .ant-btn-circle{
         span{
           font-size: calc(var(--main-size-text ) + 8px );
@@ -64,6 +63,9 @@
     .avatar_wrapper{
       display: flex;
       justify-content: center;
+      .ant-image {
+        width: 100%;
+      }
     }
     .avatar{
       cursor: pointer;
@@ -78,16 +80,6 @@
       font-size: calc(var(--main-size-text) + 100px);
       position: relative;
   
-    }
-    &-modal-avatar{
-      .avatar{
-        border-radius:10px;
-        width: 100%;
-        
-      }
-      .ant-modal-close-x{
-        display: none;
-      }
     }
     &-item{
       display: flex;
@@ -185,6 +177,9 @@
       input{
         min-width: calc(var(--main-size-text ) * 15);
         margin-bottom: calc(var(--main-size-text) - 5px);
+        &::placeholder{
+          color:var(--color-text-secondary);
+        }
       }
     }
     .avatar{
@@ -263,6 +258,7 @@
   &__dialog{
     flex: 1;
     position: relative;
+    overflow-y: hidden;
     .ant-empty{
       position: absolute;
       left: 50%;
@@ -317,5 +313,11 @@
     }
     }
   
+  }
+}
+.ant-image{
+
+  svg{
+    color:white;
   }
 }

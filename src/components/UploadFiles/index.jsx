@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Upload } from 'antd';
+import { filesApi } from '../../utils/api';
+import { openNotification } from '../../utils/helpers';
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -24,7 +26,6 @@ const UploadFiles = ({ attachments, removeAttachment }) => {
     setPreviewOpen(true);
   };
   const handleChange = ({ fileList }) => setFileList(fileList);
-
   return (
     <>
       <Upload
@@ -33,7 +34,27 @@ const UploadFiles = ({ attachments, removeAttachment }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        onRemove={file => removeAttachment(file)}
+        onRemove={async (file) => {
+          let confirmationRequest = null;
+        await filesApi.removeById(file.uid).then(()=>{
+          confirmationRequest=true
+            removeAttachment(file)
+          }).catch((err)=>{
+            if(err){
+              confirmationRequest=false
+              openNotification({
+                title: 'Ошибка',
+                text: 'Не удалось удалить файл',
+                type: 'error',
+              });      
+            }
+   
+          })
+
+            return(confirmationRequest)
+          
+
+        }}
       >
       </Upload>
       <Modal

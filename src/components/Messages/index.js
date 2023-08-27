@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import PropsType from 'prop-types';
 import { Spin } from 'antd';
 import { Empty } from 'antd';
-
 import { Message } from '../';
 import './Messages.scss';
 const Messages = ({
@@ -21,7 +20,9 @@ const Messages = ({
   partner,
   handleLoadNewMessage,
   loadingNewMessage,
-  toggleSidebarPartnerFunc
+  toggleSidebarPartnerFunc,
+  addEmbeddedMessage,
+  scrollByElemnt
 }) => {
   return (
     <div className="chat__dialog-messages" style={{ height: `calc(100% - ${blockHeight}px)` }}>
@@ -35,8 +36,10 @@ const Messages = ({
                 toggleSidebarPartnerFunc={user && user._id !== item.user._id ? toggleSidebarPartnerFunc : () => { }}
                 isMe={user._id === item.user._id}
                 onRemoveMessage={onRemoveMessage.bind(this, item._id)}
+                addEmbeddedMessage={addEmbeddedMessage.bind(this, item)}
                 setPreviewImage={setPreviewImage}
                 key={item._id}
+                scrollByElemnt={scrollByElemnt}
               />
             ))
           ) : (

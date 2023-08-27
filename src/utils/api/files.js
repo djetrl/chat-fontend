@@ -12,6 +12,7 @@ export default {
         folder: folder,
       }
     })
-  }
+  },
+  removeById: id =>axios.delete("/files/media?id="+id),
 } 
 // TODO: сделать что при загрузки фото,видео и аудио и других файлов , чтобы они разгуржались в соотвествующие  папки

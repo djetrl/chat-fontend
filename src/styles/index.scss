@@ -1,6 +1,12 @@
 @import 'reset-css';
 @import './variables'; 
 @import './layouts/chat';
+
+@font-face {
+  font-family: Roboto-Light;
+  src: url(./fonts/Roboto-Light.ttf);
+}
+
 body{
   background: #f4f7fd;
 }
@@ -13,6 +19,7 @@ body, html, #root, .wrapper{
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family:Roboto-Light, sans-serif !important;
 }
 * {
   outline: none;
@@ -88,4 +95,52 @@ a{
 }
 .ant-empty-description{
   color:var(--color-text) !important;
+}
+.ant-notification-notice{
+  background:var(--background-secondaryСolor) !important;
+  .ant-notification-notice-message, .ant-notification-notice-description, .ant-notification-notice-close svg{
+    color: var(--color-text) !important;
+  }
+}
+
+.File-Icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var( --main-size-text) + 10px);
+  height:calc(var( --main-size-text) + 10px);
+  padding:calc(var(--main-size-text) + 10px) calc(var(--main-size-text) + 8px);
+  text-align: center;
+  
+  background-color:var(--blue);
+  border-radius:6px 15px 6px 6px;
+  margin-right: calc(var(--main-size-text)) ;
+  transition: all 0.5s ease;
+  position: relative;
+  .ant-btn,p{
+    position: absolute;
+    color:white ;
+    svg{
+      color:white;
+    }
+  }
+  p{
+    visibility: visible;
+    transition: border-radius 0.3s ease-in;
+  }
+  .ant-btn{
+    margin-bottom: 10px;
+    visibility:hidden;
+ 
+  }
+  &:hover{
+    border-radius:6px 6px 6px 6px;
+    p{
+      visibility: hidden;
+    }
+    .ant-btn{
+      visibility:visible;
+      margin-bottom: 0;
+    }
+  }
 }

@@ -1,0 +1,31 @@
+.video {
+  position: relative;
+  cursor: pointer;
+}
+.video video {
+  border-radius: 20px;
+  object-fit: cover;
+}
+.video-duration {
+  position: absolute;
+  left: 5%;
+  top: 5%;
+}
+
+.modal-video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  height: 100%;
+}
+.modal-video video {
+  object-fit: cover;
+  height: 60%;
+  width: 60%;
+}

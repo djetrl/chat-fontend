@@ -8,7 +8,7 @@ const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, messages, tog
   const [currentDialog, setCurrentDialog] = useState(null)
   const [userPartner, setUserPartner] = useState(null)
   const [attachments, setAttachments] = useState([])
-  const [previewImage, setPreviewImage] = useState(null);
+  const [sectionSelect, setSectionSelect]= useState('photo');
   useEffect(() => {
     setCurrentDialog(dialogs.filter(item => item._id === currentDialogId))
   }, [dialogs, currentDialogId])
@@ -36,13 +36,15 @@ const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, messages, tog
       }
     }
   }, [messages])
-
+  const onSelectSection = (event)=>{
+      setSectionSelect(event.target.id);
+  }
   return <SidebarPartner
     user={userPartner}
     currentDialog={currentDialog}
     attachments={attachments}
-    setPreviewImage={setPreviewImage}
-    previewImage={previewImage}
+    sectionSelect={sectionSelect}
+    onSelectSection={onSelectSection}
     toggleSidebarPartner={toggleSidebarPartner}
     SidebarPartnerRedux={SidebarPartnerRedux} />
 }
