@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-
+import { filesApi } from '../utils/api';
 import { SidebarPartner } from "../components";
-import { userActions } from '../redux/actions';
+import {userActions } from '../redux/actions';
 
-const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, messages, toggleSidebarPartner, SidebarPartnerRedux }) => {
+const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, toggleSidebarPartner, SidebarPartnerRedux }) => {
   const [currentDialog, setCurrentDialog] = useState(null)
   const [userPartner, setUserPartner] = useState(null)
   const [attachments, setAttachments] = useState([])
-  const [sectionSelect, setSectionSelect]= useState('photo');
+  const [sectionSelect, setSectionSelect] = useState('photo');
   useEffect(() => {
     setCurrentDialog(dialogs.filter(item => item._id === currentDialogId))
   }, [dialogs, currentDialogId])
@@ -24,20 +24,28 @@ const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, messages, tog
     }
   }, [currentDialog])
   useEffect(() => {
-    let newAttachments = [];
-    if (messages) {
-      messages.map(item => {
-        if (item.attachments.length !== 0) {
-          newAttachments.push(...item.attachments);
+    if (currentDialogId && SidebarPartnerRedux) {
+      filesApi.getAllByDialogId(currentDialogId).then(({ data }) => {
+        let newAttachments = [];
+        if (data) {
+          data.map(item => {
+            if (item.attachments.length !== 0) {
+              newAttachments.push(...item.attachments);
+            }
+          })
+          if (newAttachments.length > 0) {
+            setAttachments(newAttachments)
+          }
         }
+
       })
-      if (newAttachments.length > 0) {
-        setAttachments(newAttachments)
-      }
     }
-  }, [messages])
-  const onSelectSection = (event)=>{
-      setSectionSelect(event.target.id);
+  }, [currentDialogId,SidebarPartnerRedux])
+  const onSelectSection = (event) => {
+    setSectionSelect(event.target.id);
+  }
+  if (!currentDialogId) {
+    return null
   }
   return <SidebarPartner
     user={userPartner}
@@ -50,10 +58,9 @@ const SidebarPartnerContainer = ({ user, dialogs, currentDialogId, messages, tog
 }
 
 
-export default connect(({ user, dialogs, messages }) => ({
+export default connect(({ user, dialogs }) => ({
   user: user.data,
   dialogs: dialogs.items,
   currentDialogId: dialogs.currentDialogId,
-  messages: messages.items,
-  SidebarPartnerRedux: user.SidebarPartner
-}), userActions)(SidebarPartnerContainer);
+  SidebarPartnerRedux: user.SidebarPartner,
+}), {...userActions})(SidebarPartnerContainer);

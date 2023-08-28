@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { filesApi } from '../utils/api';
 import { connect } from "react-redux";
 import socket from '../core/socket';
-
 import { Chatinput as ChatInputBase } from "../components";
-
 import { attachmentsActions, messagesActions , embeddedMessageActions} from "../redux/actions";
 
 const ChatInput = props => {
@@ -24,7 +22,7 @@ const ChatInput = props => {
     return () => {
       document.removeEventListener('click', handleOutsideClick.bind(this, el));
     };
-  }, []);
+  }, [props.dialogs.currentDialogId]);
   const {
     dialogs: { currentDialogId },
     attachments,
@@ -34,7 +32,8 @@ const ChatInput = props => {
     user,
     theme,
     embeddedMessage,
-    setEmbeddedMessage
+    setEmbeddedMessage,
+    removeEmbeddedMessage
   } = props;
 
   if (!currentDialogId || props.dialogs.items.filter(item => item._id === currentDialogId).length === 0) {
@@ -87,7 +86,7 @@ const ChatInput = props => {
   };
 
   const onError = err => {
-    console.log('The following error occured: ' + err);
+    console.err('The following error occured: ' + err);
   };
 
 
@@ -136,13 +135,11 @@ const ChatInput = props => {
   const onHideRecording = () => {
     setIsRecording(false);
   };
-
   const onSelectFiles = async files => {
     let uploaded = [];
     const fileType =files[0].type.split('.')[0];
     for (let i = 0; i < files.length; i++) {
       if (i < 7 && (fileType === files[i].type.split('.')[0])) {
-        console.log(files[i]);
         const file = files[i];
         const uid = Math.round(Math.random() * 1000);
         uploaded = [
@@ -191,6 +188,7 @@ const ChatInput = props => {
       removeAttachment={removeAttachment}
       theme={theme}
       embeddedMessage={embeddedMessage}
+      removeEmbeddedMessage={removeEmbeddedMessage}
     />
   );
 };
@@ -205,4 +203,3 @@ export default connect(
   }),
   { ...messagesActions, ...attachmentsActions, ...embeddedMessageActions })
   (ChatInput);
-// TODO: После отправленния одного сообщеня с фото после этого  до перезагрузки страницы  нельзя больше отправить фото исправить

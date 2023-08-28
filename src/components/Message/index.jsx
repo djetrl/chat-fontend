@@ -164,7 +164,6 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
         <IconReaded isMe={isMe} isReaded={readed} />
         <Popover content={<div className='actionMessage'>
           <Button onClick={onRemoveMessage}>удалить сообщение</Button>
-          {text && !isAudio(attachments) ? <Button onClick={() => { }}>Озвучить текст</Button> : null}
           <Button onClick={addEmbeddedMessage}>Ответить</Button>
         </div>
         } title={null} trigger={"click"}>

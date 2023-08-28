@@ -4,9 +4,8 @@ const Actions = {
     type:'EMBEDDEDMESSAGE:SET_ITEMS',
     payload:items
   }),
-  removeEmbeddedMessage: (file)=> ({
-    type:'EMBEDDEDMESSAGE:REMOVE_ITEM',
-    payload:file
+  removeEmbeddedMessage: ()=> ({
+    type:'EMBEDDEDMESSAGE:REMOVE_ITEM'
   }),
 
   

@@ -54,7 +54,7 @@ const Dialogs = ({
       if (e.target.clientHeight === 36) {
         setInputHeight(0)
       } else {
-        setInputHeight((window.innerWidth / +e.target.clientHeight))
+        setInputHeight((window.innerWidth / +e.target.clientHeight) * (+e.target.clientHeight / 125))
       }
 
     }
@@ -86,7 +86,7 @@ const Dialogs = ({
   useEffect(() => {
     if (attachments.length) {
       if(heightWindowSize < 1400){
-        setBlockHeight(heightWindowSize / 38 + inputHeight);
+        setBlockHeight(heightWindowSize / 35 + inputHeight);
       }else{
         setBlockHeight(heightWindowSize / 50 + inputHeight);
       }

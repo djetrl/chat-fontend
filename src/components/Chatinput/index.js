@@ -26,7 +26,8 @@ const Chatinput = (props) => {
     isLoading,
     removeAttachment,
     theme,
-    embeddedMessage
+    embeddedMessage,
+    removeEmbeddedMessage
   } = props;
   return (
     <div className="chat-input">
@@ -58,7 +59,7 @@ const Chatinput = (props) => {
                       }
                     </p>
                   </div>
-                  <Button type='link' shape='circle' icon={<CloseOutlined />} />
+                  <Button type='link' shape='circle' icon={<CloseOutlined />} onClick={removeEmbeddedMessage} />
                 </div>
               )}
               <TextArea

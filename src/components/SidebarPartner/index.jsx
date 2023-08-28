@@ -4,12 +4,11 @@ import { Image, Button } from 'antd';
 import classNames from 'classnames';
 import format from 'date-fns/format';
 import { formBytes } from '../../utils/helpers';
-import './Sidebar.scss'
+import './SidebarPartner.scss'
 const SidebarPartner = ({ user, attachments, sectionSelect, onSelectSection, toggleSidebarPartner, SidebarPartnerRedux }) => {
   return (
     <div className={classNames("chat__sidebar", { 'chat__sidebar-hidden': !SidebarPartnerRedux })}>
       <div className="chat__sidebar-header" style={{ 'padding': "0" }}>
-
         <div style={{ "display": "flex", "alignItems": "center" }}>
           <Button onClick={() => { toggleSidebarPartner(false) }} type='link' shape='circle' icon={<ArrowLeftOutlined />} />
           <span>информация о пользователе</span>

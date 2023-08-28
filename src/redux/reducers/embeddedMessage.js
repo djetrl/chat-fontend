@@ -12,7 +12,7 @@ switch (type) {
   case "EMBEDDEDMESSAGE:REMOVE_ITEM":
     return {
       ...state, 
-      items: state.items.filter(item => item.uid !== payload.uid)
+      items: []
     }
     default:
       return state;
