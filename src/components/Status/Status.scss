@@ -19,3 +19,8 @@
     }
   }
 }
+.btn-sibebar-close{
+  position: absolute;
+  visibility: visible;
+  left: calc(var(--main-size-text ) + 6px);
+}

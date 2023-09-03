@@ -19,6 +19,12 @@ const Actions = {
       payload: bool
     })
 },
+toggleSidebar: bool=>dispatch=> {
+  dispatch({
+    type: "USER:SET_OPTION_SIDEBAR_TOGGLE",
+    payload: bool
+  })
+},
   setIsAuth: bool => ({
     type: "USER:SET_IS_AUTH",
     payload: bool

@@ -31,7 +31,7 @@ const Dialogs = ({
   const [heightWindowSize, setHeightWindowSize] = useState(18.067);
   const [inputHeight, setInputHeight] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const [messageLength, setMessageLength] = useState(15);
+  const [messageLength, setMessageLength] = useState(10);
   const [loadingNewMessage, setLoadingNewMessage] = useState(false);
   const [filteredItem, setFilteredItem] = useState([])
 
@@ -54,7 +54,7 @@ const Dialogs = ({
       if (e.target.clientHeight === 36) {
         setInputHeight(0)
       } else {
-        setInputHeight((window.innerWidth / +e.target.clientHeight) * (+e.target.clientHeight / 125))
+        setInputHeight((+e.target.clientHeight / window.innerWidth) * 100 + 4)
       }
 
     }
@@ -78,24 +78,25 @@ const Dialogs = ({
   }, []);
   useEffect(() => {
     const heightWindowSizeFunc = () => {
-      setHeightWindowSize(window.innerWidth);
+      setHeightWindowSize(window.innerWidth/ 100);
     }
     window.onresize = () => heightWindowSizeFunc()
     heightWindowSizeFunc()
   }, [items.length, attachments, window.innerWidth]);
   useEffect(() => {
     if (attachments.length) {
-      if(heightWindowSize < 1400){
-        setBlockHeight(heightWindowSize / 35 + inputHeight);
+      if(window.innerWidth < 1200){
+        setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 100)) + 12)  ;
       }else{
-        setBlockHeight(heightWindowSize / 50 + inputHeight);
+        setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 200)) + 12)  ;
       }
     } else {
-      if(heightWindowSize < 1400){
-        setBlockHeight(heightWindowSize / 70 + inputHeight);
-      }else{
-        setBlockHeight(heightWindowSize / 90 + inputHeight);
-      }
+
+        if(window.innerWidth < 1200){
+          setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 100)))  ;
+        }else{
+          setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 200)))  ;
+        }
     }
   }, [items.length, attachments, inputHeight, heightWindowSize]);
 

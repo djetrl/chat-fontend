@@ -56,6 +56,7 @@ const SidebarPartner = ({ user, attachments, sectionSelect, onSelectSection, tog
                     if (attachment.ext.split('/')[0] === 'image') {
                       return (
                         <Image
+                          id={attachment._id}
                           className='chat__sidebar-setting-chapter-gallery-item'
                           width={`${(((2.4 / attachments.length) * 100))}%`}
                           height={100}
@@ -73,7 +74,7 @@ const SidebarPartner = ({ user, attachments, sectionSelect, onSelectSection, tog
                 attachments.map(attachment => {
                   if (attachment.ext.split('/')[0] !== 'image' && attachment.ext.split('/')[0] === 'video') {
                     return (
-                      <Video key={attachment._id} data={attachment} />
+                      <Video id={attachment._id} key={attachment._id} data={attachment} />
                     )
                   }
                 })

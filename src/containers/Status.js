@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { dialogsApi } from '../utils/api';
 import { dialogsActions, userActions, messagesActions } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
-const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs, SidebarPartner, toggleSidebarPartner, setFilter }) => {
+const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs, Sidebar ,SidebarPartner, toggleSidebarPartner, setFilter, toggleSidebar }) => {
   const [visibleInput, setVisibleInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const navigate = new useNavigate();
@@ -50,6 +50,12 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
 
 
   }
+  const onToggleSidebar =()=>{
+    if(window.innerWidth < 1200){
+      toggleSidebarPartner(false);
+      toggleSidebar(true);
+    }
+  }
   return <StatusBase
     online={partner.isOnline}
     fullname={partner.fullname}
@@ -58,7 +64,8 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
     visibleInput={visibleInput}
     toggleVisibleInput={toggleVisibleInput}
     inputValue={inputValue}
-    changeSearchInput={changeSearchInput} />
+    changeSearchInput={changeSearchInput} 
+    onToggleSidebar={onToggleSidebar}/>
 }
 
 export default connect(
@@ -67,5 +74,7 @@ export default connect(
     currentDialogId: dialogs.currentDialogId,
     user: user.data,
     SidebarPartner: user.SidebarPartner,
+    Sidebar: user.Sidebar,
     filter: messages.filter
+    
   }), { ...dialogsActions, ...userActions, ...messagesActions })(Status);

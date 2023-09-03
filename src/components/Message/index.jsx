@@ -72,7 +72,7 @@ const MessageFile = ({ item }) => {
             <p>{item.filename}</p>
             <span>{item.url.split('.')[1]}</span>
           </div>
-          <p className='date'>{item.updatedAt.split("T")[1].split(/\b(\d{2}:\d{2})\b/)[1]}</p>
+          <p className='date'>{getMessageTime(item.createdAt)}</p>
         </div>
         <div className="message__file-header-item">
           <p className='message__file-header-size'>{formBytes(item.size)}</p>
@@ -115,7 +115,7 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
   const renderEmbeddedMessage = (embeddedMessageItem) => {
     if (embeddedMessageItem) {
       return (
-        <div className="embeddedMessage" onClick={() => scrollByElemnt(embeddedMessageItem._id)}>
+        <div className="embeddedMessage" onClick={() =>{console.log(embeddedMessageItem) ||  scrollByElemnt(embeddedMessageItem._id)}}>
           {embeddedMessageItem.attachments[0] && (
             embeddedMessageItem.attachments[0].ext.split('/')[0] === 'image' ?
               <img src={embeddedMessageItem.attachments[0].url} alt={embeddedMessageItem.attachments[0].fullname} /> :

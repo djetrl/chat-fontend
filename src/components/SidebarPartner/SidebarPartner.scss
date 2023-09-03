@@ -7,7 +7,10 @@
   justify-content: center;
   .ant-image{
     width: 33% !important;
-    border: 1px solid var( --background-color);
+    border: 1% solid var( --background-color);
+    img{
+      object-fit: cover;
+    }
   }
 }
 .chat__sidebar-hidden{

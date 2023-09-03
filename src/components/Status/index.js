@@ -1,12 +1,12 @@
 import PropsType from 'prop-types';
 import classNames from 'classnames';
-import { SearchOutlined } from '@ant-design/icons';
-import { EllipsisOutlined } from '@ant-design/icons';
+import { SearchOutlined,EllipsisOutlined,ArrowRightOutlined } from '@ant-design/icons';
 import { Button, Popover, Input } from 'antd';
 
 import './Status.scss';
-const Status = ({ online, fullname, onDeleteDialog, toggleSidebarPartnerFunc, toggleVisibleInput, visibleInput, inputValue, changeSearchInput }) => (
+const Status = ({ online, fullname, onDeleteDialog, onToggleSidebar,toggleSidebarPartnerFunc, toggleVisibleInput, visibleInput, inputValue, changeSearchInput }) => (
   <div className="chat__dialog-header">
+    {window.innerWidth < 951 && <Button type='link' shape='circle' icon={<ArrowRightOutlined />} onClick={onToggleSidebar} className={'btn-sibebar-close'} />}
     <div className="chat__dialog-header-center" onClick={toggleSidebarPartnerFunc}>
       <b className="chat__dialog-header-username">{fullname}</b>
       <div className="chat__dialog-header-status">

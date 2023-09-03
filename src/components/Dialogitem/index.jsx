@@ -30,10 +30,11 @@ const DialogItem = ({
   author,
   currentDialogId,
   lastMessage,
+  onCloseSidebar,
   userId }) =>{
   return (
     
-  <Link to={`/dialog/${_id}`}>
+  <Link to={`/dialog/${_id}`} onClick={onCloseSidebar}>
     
     <div
       className={classNames("dialogs__item", {

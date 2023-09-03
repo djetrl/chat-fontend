@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 
-import { dialogsActions } from '../redux/actions';
+import { dialogsActions, userActions } from '../redux/actions';
 import socket from '../core/socket';
 
 import { Dialogs as BaseDialogs } from "../components";
 
-const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, userId }) => {
+const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, userId,toggleSidebar  }) => {
   const [inputValue, setValue] = useState('');
   const [filtred, setFiltredItems] = useState(Array.from(items));
 
@@ -44,7 +44,9 @@ const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, use
       socket.removeListener('SERVER:DIALOG_DELETED', () => { onChangeInput() });
     };
   }, []);
-
+  const onCloseSidebar = ()=>{
+    toggleSidebar(false)
+  }
   return (
     <BaseDialogs
       userId={userId}
@@ -52,7 +54,8 @@ const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, use
       onSearch={onChangeInput}
       inputValue={inputValue}
       currentDialogId={currentDialogId}
+      onCloseSidebar={onCloseSidebar}
     />
   );
 };
-export default connect(({ dialogs }) => dialogs, dialogsActions)(Dialogs);
+export default connect(({ dialogs }) => dialogs, {...dialogsActions , ...userActions})(Dialogs);

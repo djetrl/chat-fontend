@@ -4,7 +4,7 @@ import { Input, Empty } from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
 import {Dialogitem} from '../'
 import './Dialogs.scss';
-const Dialogs= ({items, userId, onSearch,inputValue,currentDialogId})=>(
+const Dialogs= ({items, userId, onSearch,inputValue,currentDialogId, onCloseSidebar})=>(
  <div className="dialogs">
     <div className="dialogs__search">
         <Input 
@@ -18,7 +18,8 @@ const Dialogs= ({items, userId, onSearch,inputValue,currentDialogId})=>(
                       isMe={item.author._id === userId } 
                       userId={userId}
                       currentDialogId={currentDialogId}
-                      {...item} />
+                      {...item} 
+                      onCloseSidebar={onCloseSidebar}/>
       )) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='Ничего не найдено' />}
  </div>
 )

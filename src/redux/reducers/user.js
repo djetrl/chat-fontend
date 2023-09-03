@@ -3,7 +3,8 @@ const initialState = {
   token: window.localStorage.token,
   isAuth: !!window.localStorage.token,
   theme: window.localStorage.theme ? window.localStorage.theme : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark',
-  SidebarPartner: false
+  SidebarPartner: false,
+  Sidebar: true
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -31,6 +32,11 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         SidebarPartner: payload,
       };
+      case "USER:SET_OPTION_SIDEBAR_TOGGLE":
+        return {
+          ...state,
+          Sidebar: payload,
+        };
     default:
       return state;
   }
