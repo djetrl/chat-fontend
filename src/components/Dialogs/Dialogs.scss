@@ -3,7 +3,7 @@
 
 .dialogs{
       &__search{
-      padding: calc(var(--main-size-text ) - 9px) calc(var(--main-size-text ) + 6px) calc(var(--main-size-text ) + 6px) calc(var(--main-size-text ) + 6px);
+      padding: calc(var(--main-size-text ) - 5px) calc(var(--main-size-text ) + 6px) calc(var(--main-size-text ) + 6px) calc(var(--main-size-text ) + 6px);
       position: relative;
       $searchs: &;
       .ant-input,button{
@@ -17,8 +17,10 @@
       &-icon{
         position: absolute;
         right: calc(var(--main-size-text ) + 16px) ;
-        top: calc(var(--main-size-text ) + 4px) ;
+        top: calc(var(--main-size-text ) + 6px) ;
         color:var(--color-text) ;
+        min-width:var(--main-size-text );
+        min-height:var(--main-size-text );
         transition: opacity .5s ease;
       }
       &:hover{

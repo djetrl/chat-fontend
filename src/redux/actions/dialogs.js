@@ -27,8 +27,8 @@ const Actions = {
     dialogsApi.getAll().then(({data})=>{
       dispatch(Actions.setDialogs(data));
     })
-
   }
+  
 }
 
 export default  Actions

@@ -10,7 +10,7 @@ import store from '../../../redux/store'
 export default withFormik({
   enableReinitialize:true,
   mapPropsToValues:()=>({
-    email:'',
+    email:''.toLowerCase(),
     fullname:'',
     password:'',
     password_2:''

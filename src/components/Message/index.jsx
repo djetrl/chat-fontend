@@ -210,13 +210,13 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
               )}
             </div>
           }
-            {createdAt && <span className="message__date">{getMessageTime(createdAt)}</span>}
-          {(attachments[0] && (attachments[0].ext.split('/')[0] === 'image' && text) || !text) && (
+            {(createdAt) && <span className="message__date">{getMessageTime(createdAt)}</span>}
+          {(attachments && attachments[0] && (attachments[0].ext.split('/')[0] === 'image' && text) || !text) && (
             <div className={classNames("message__attachments", {
-              "message-attachments-many": attachments.length > 1,
-              "message-attachments-many-file": attachments.length > 1 && attachments[0].ext.split('/')[0] !== 'image' && attachments[0].ext.split('/')[0] !== 'video'
+              "message-attachments-many":(attachments && attachments.length )> 1,
+              "message-attachments-many-file":(attachments && attachments.length) > 1 && attachments[0].ext.split('/')[0] !== 'image' && attachments[0].ext.split('/')[0] !== 'video'
             })}  >
-              {attachments.map((item) => (renderAttachment(item)))}
+              {attachments && attachments.map((item) => (renderAttachment(item)))}
             </div>
           )}
         </div>

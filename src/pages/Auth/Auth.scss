@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  background-color:var(--background-secondaryСolor);
   height: 100%;
 
   &__top{
@@ -18,6 +18,9 @@
        letter-spacing: 0.1px;
        opacity: 0.5;
     }
+    h2,p{
+      color:var(--color-text) !important;
+    }
   }
   .block{
     width: 430px;
@@ -28,13 +31,27 @@
     font-size: 14px;
     letter-spacing: 0.1px;
     width: 100%;
+
+
+  }
+  .ant-btn,  .button {
+    background-color: var(--blue) !important;
+    &:hover{
+      background-color: var(--blue-light) !important;
+    }
+    span{
+      color:var(--color-text) !important;
+     }
   }
   &__register-link{
     text-align: center;
     display: block;
-    color:#ADADAD;
+    color:var(--color-text-secondary);
     font-size: 18px;
     letter-spacing: 0.1px;
+    &:hover{
+      color: var(--blue);
+    }
   }
   &_success-block{
     display: flex;
@@ -54,4 +71,8 @@
       color:#ADADAD;
     }
   }
+  .ant-result-title, .ant-result-subtitle{
+    color:var(--color-text) !important;
+  }
+
 }

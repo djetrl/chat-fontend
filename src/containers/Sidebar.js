@@ -2,29 +2,29 @@ import { useState } from 'react';
 import { connect } from "react-redux";
 import { userApi, dialogsApi, filesApi } from '../utils/api';
 import { Sidebar } from "../components";
-import { userActions } from '../redux/actions';
+import { userActions, attachmentsActions } from '../redux/actions';
 import { openNotification } from '../utils/helpers';
 
-const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
+const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }) => {
   const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
   const [visibleSettings, setVisibleSettings] = useState(false);
   const [visibleSettingsEdit, setVisibleSettingsEdit] = useState(false);
-  const [inputValue, seInputValue] = useState('');
+  const [inputValue, seInputValue] = useState([]);
   const [messageText, setMessageText] = useState('');
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(false);
-
+  const [nameGroup, setNameGroup] = useState('');
   const [avatarSetting, setAvatarSetting] = useState(user && user.avatar);
   const [nameInputSetting, setNameInputeSetting] = useState(user && user.fullname);
   const [emailInputSetting, setEmailInputSetting] = useState(user && user.email);
   const [passwordOld, setPasswordOld] = useState('');
   const [passwordNew, setPasswordNew] = useState('');
   const [passwordOldVerify, setPasswordOldVerify] = useState(false);
+  const [avatarDialog, setAvatarDialog] = useState([]);
   const onCloseModalCreateDialog = () => {
     setVisibleModalCreateDialog(false);
   };
-
   const onShowSettings = () => {
     setVisibleSettings(true);
   }
@@ -62,20 +62,89 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
       })
   }
   const onAddDialog = () => {
+    if(inputValue.length === 1){
     dialogsApi
       .create({
-        partner: selectedUserId,
+        partner: inputValue[0],
         text: messageText
       })
-      .then(onCloseModalCreateDialog)
+      .then(  onCloseModalCreateDialog  )
       .catch(() => {
         setIsLoading(false)
+        openNotification({
+          title: "Ошибка при попытки создать диалог",
+          text: "Такой пользователь уже существует",
+          type: "error"
+        });
       })
+    }else{
+      if(avatarDialog[0]){
+          if(nameGroup){
+            dialogsApi
+            .createGroup({
+              partner: inputValue,
+              text: messageText,
+              avatar: avatarDialog[0].uid,
+              name:nameGroup
+            })
+            .then(onCloseModalCreateDialog)
+            .catch(() => {
+              setIsLoading(false)
+              openNotification({
+                title: "Ошибка при попытки создать диалог",
+                text: "Такой пользователь уже существует",
+                type: "error"
+              });
+            })
+          }else{
+            openNotification({
+              title: "Введите название группы",
+              type: "error"
+            });
+          }
+      }else{
+        openNotification({
+          title: "Выберите аватар",
+          type: "error"
+        });
+      }
+    }
   }
   const onSelectUser = userId => {
-    setSelectedUserId(userId)
+    setSelectedUserId(inputValue)
   }
 
+  const onSelectAvatarDialog = async files => {
+    let uploaded = [];
+
+        const file = files[0];
+        const uid = Math.round(Math.random() * 1000);
+        uploaded = [
+          {
+            uid,
+            name: file.name,
+            status: 'uploading',
+          },
+        ];
+        setAvatarDialog(uploaded);
+        // eslint-disable-next-line no-loop-func
+        await filesApi.upload(file).then(({ data }) => {
+          console.log(data);
+          uploaded = uploaded.map(item => {
+            if (item.uid === uid) {
+              return {
+                status: 'done',
+                uid: data.file._id,
+                name: data.file.filename,
+                url: data.file.url,
+              };
+            }
+            return item;
+          });
+        });
+      
+        setAvatarDialog(uploaded);
+  };
   // Загрузка аватара 
   const onSelectFiles = async files => {
     // eslint-disable-next-line no-loop-func
@@ -227,11 +296,15 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
 
     }
   }
+  const onRemoveAvatarDialog= (item)=>{
+    setAvatarDialog([])
+    removeAttachment(item)
+  }
   return <Sidebar user={user}
     inputValue={inputValue}
     onSearch={onSearch}
-    onChangeInput={handleChangeInput}
     onSelectUser={onSelectUser}
+    onChangeInput={handleChangeInput}
     isLoading={isLoading}
     visibleModalCreateDialog={visibleModalCreateDialog}
     onCloseModalCreateDialog={onCloseModalCreateDialog}
@@ -241,9 +314,12 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
     onShowSettings={onShowSettings}
     selectedUserId={selectedUserId}
     onChangeTextArea={onChangeTextArea}
+    onRemoveAvatarDialog={onRemoveAvatarDialog}
     messageText={messageText}
     onModalOk={onAddDialog}
     users={users}
+    nameGroup={nameGroup}
+    setNameGroup={setNameGroup}
     visibleSettingsEdit={visibleSettingsEdit}
     toggleVisibleSettingsEdit={toggleVisibleSettingsEdit}
     nameInputSetting={nameInputSetting}
@@ -255,7 +331,8 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
     onSelectFiles={onSelectFiles}
     onSelectTheme={onSelectTheme}
     theme={theme}
-
+    onSelectAvatarDialog={onSelectAvatarDialog}
+    avatarDialog={avatarDialog}
     setPasswordOld={setPasswordOld}
     passwordOld={passwordOld}
     passwordNew={passwordNew}
@@ -271,4 +348,4 @@ const SidebarContainer = ({ user, updateData, theme, setTheme }) => {
 export default connect(({ user }) => ({
   user: user.data,
   theme: user.theme,
-}), userActions)(SidebarContainer);
+}), {...userActions, ...attachmentsActions})(SidebarContainer);

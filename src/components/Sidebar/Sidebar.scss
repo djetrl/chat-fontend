@@ -16,14 +16,14 @@
     width: 60px;
     min-width: 60px;
     color: white;
-    background: #3674FF;
+    background: var(--blue);
     box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
     padding: 0;
     border-radius: 30px;
     border: 0;
     margin-top: 14px;
     &:hover, &:disabled{
-      background: #214694;
+      background: var( --blue--dark);
       color:rgb(160, 160, 160);
     }
   }
@@ -63,5 +63,24 @@
   }
 
 }
+
+}
+
+.ant-modal-body{
+  .chat-input_actions-upload{
+    span{
+      color:var(--color-text) !important
+    }
+  }
+}
+.ant-form-item-control-input{
+  span{
+    color:var(--color-text-secondary) !important;
+    background:inherit;
+  }
+  input{
+    background:inherit;
+    color:var(--color-text) !important;
+  }
 
 }

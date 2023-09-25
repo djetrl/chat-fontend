@@ -30,6 +30,8 @@ const DialogItem = ({
   author,
   currentDialogId,
   lastMessage,
+  name,
+  avatar,
   onCloseSidebar,
   userId }) =>{
   return (
@@ -42,11 +44,12 @@ const DialogItem = ({
         'dialogs__item--selected': currentDialogId === _id
       })}>
       <div className="dialogs__item-avatar">
-        <Avatar user={partner._id === userId ? author : partner} />
+       {avatar && name ? ( <Avatar user={{ avatar: avatar, fullname: name }} />) 
+       : <Avatar user={partner[0]._id === userId ? author : partner[0]} />} 
       </div>
       <div className="dialogs__item-info">
         <div className="dialogs__item-info-top">
-          <b>{partner._id === userId ? author.fullname : partner.fullname}</b>
+          <b>{name ? name :partner[0]._id === userId ? author.fullname : partner[0].fullname}</b>
           <span>{getMessageTime(lastMessage.updatedAt)}</span>
         </div>
         <div className="dialogs__item-info-bottom">

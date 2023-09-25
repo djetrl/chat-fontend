@@ -93,7 +93,7 @@ const Dialogs = ({
     } else {
 
         if(window.innerWidth < 1200){
-          setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 100)))  ;
+          setBlockHeight(heightWindowSize  + inputHeight + ((window.innerHeight / window.innerHeight) - 11 ))  ;
         }else{
           setBlockHeight(heightWindowSize + inputHeight + ((window.innerHeight / 200)))  ;
         }

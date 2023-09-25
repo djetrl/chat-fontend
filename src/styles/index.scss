@@ -144,3 +144,7 @@ a{
     }
   }
 }
+input::placeholder{
+  background:inherit !important;
+  color:var( --color-text-secondary) !important;
+}

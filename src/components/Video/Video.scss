@@ -5,6 +5,7 @@
   video{
     border-radius: 20px;
     object-fit: cover;
+    max-width: 250px;
   }
   &-duration{
     position: absolute;
@@ -28,4 +29,15 @@
     height: 60%;
     width: 60%;
   }
+}
+
+
+
+@media (max-width: 350px){
+  .video{
+    video{
+      max-width: 60vw;
+    }
+  }
+
 }

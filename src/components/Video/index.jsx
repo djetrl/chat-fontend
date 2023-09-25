@@ -25,6 +25,7 @@ const Video = ({ data }) => {
     } else {
       setIsPlaying(false)
       videoElem.current.pause();
+      videoElem.current.currentTime = 0;
     }
   }
   useEffect(() => {

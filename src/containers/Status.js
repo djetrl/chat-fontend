@@ -1,27 +1,37 @@
 import { useState, useEffect } from "react";
 import { Status as StatusBase } from "../components";
 import { connect } from "react-redux";
-import { dialogsApi } from '../utils/api';
+import { dialogsApi,userApi } from '../utils/api';
 import { dialogsActions, userActions, messagesActions } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
-const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs, Sidebar ,SidebarPartner, toggleSidebarPartner, setFilter, toggleSidebar }) => {
+import { openNotification } from "../utils/helpers";
+const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs ,SidebarPartner, toggleSidebarPartner, setFilter, toggleSidebar }) => {
   const [visibleInput, setVisibleInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [inputValueSearchPartner, seInputValueSearchPartner] = useState('');
   const navigate = new useNavigate();
+  const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [imAuthor, setImAuthor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const currentDialogObj = dialogs.filter(dialog => dialog._id === currentDialogId)[0];
   useEffect(() => {
     setFilter('');
     setInputValue('');
     setVisibleInput(false);
     toggleSidebarPartner(false);
+    if (currentDialogId && currentDialogObj.author._id === user._id) {
+      setImAuthor(true)
+    }
   }, [currentDialogId])
-  if (!dialogs.length || !currentDialogId) {
-    return null;
-  }
+
   const toggleVisibleInput = () => {
     setVisibleInput(!visibleInput);
   }
-  const currentDialogObj = dialogs.filter(dialog => dialog._id === currentDialogId)[0];
-  // TODO: Сделать фильтрацию  с помощью запросов к бэку как в компоненте Dialogs
+  if (!dialogs.length || !currentDialogId) {
+    return null;
+  }
+
   let partner = {};
   if (currentDialogId && currentDialogObj.author._id === user._id) {
     partner = currentDialogObj.partner;
@@ -35,6 +45,10 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
       dialogsApi.delete(currentDialogId)
         .then(() => {
           deleteDialogs(currentDialogId);
+          if(window.innerWidth < 1200){
+            toggleSidebarPartner(false);
+            toggleSidebar(true);
+          }
           setCurrentDialogId('');
           navigate('/')
         })
@@ -56,16 +70,93 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
       toggleSidebar(true);
     }
   }
+  const onShowModalCreateDialog = () => {
+    setVisibleModalCreateDialog(true);
+  }
+  const onCloseModalCreateDialog = () => {
+    setVisibleModalCreateDialog(false);
+  };
+  const handleChangeInput = (value) => {
+    seInputValueSearchPartner(value)
+  }
+  const onSearch = (value) => {
+    setIsLoading(true)
+    userApi.findUsers(value)
+      .then(({ data }) => {
+        setUsers(data.filter(userSearch=>{
+          if(userSearch._id !== currentDialogObj.author._id ){
+            return userSearch
+          }
+        }))
+        setIsLoading(false)
+      })
+      .catch(() => {
+        setIsLoading(false)
+      })
+  }
+  const onAddDialog = () => {
+    dialogsApi.addUserGroup({
+      partner:inputValueSearchPartner,
+      dialog:currentDialogId
+    })
+    .catch((err)=>{
+      if(err.response.data.message === 'the user is already in the dialogs'){
+     openNotification({
+          title: "Ошибка при попытки добавить пользователя в диалог ",
+          text: "Такой пользователь уже существует в диалоги",
+          type: "error"
+        });
+      }else{
+        openNotification({
+          title: "Ошибка при попытки добавить пользователя в диалог ",
+          text: "Неизвестная",
+          type: "error"
+        });
+      }
+    }).finally(()=>{
+          setIsLoading(false)
+          onCloseModalCreateDialog();
+    })
+  }
+  const onDeletePartnerFromDialog = (id)=>{
+    dialogsApi.deletePartnerForGroup({dialog:currentDialogId, partner:id})
+    .then(()=>{
+      deleteDialogs(currentDialogId);
+      if(window.innerWidth < 1200){
+        toggleSidebarPartner(false);
+        toggleSidebar(true);
+      }
+      setCurrentDialogId('');
+      navigate('/')
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+
+  }
   return <StatusBase
-    online={partner.isOnline}
-    fullname={partner.fullname}
+    online={partner[0].isOnline}
+    fullname={partner[0].fullname}
+    partnerLength = {partner.length}
+    nameDiaglog={currentDialogObj ? currentDialogObj.name : null}
     onDeleteDialog={onDeleteDialog}
     toggleSidebarPartnerFunc={toggleSidebarPartnerFunc}
     visibleInput={visibleInput}
     toggleVisibleInput={toggleVisibleInput}
     inputValue={inputValue}
     changeSearchInput={changeSearchInput} 
-    onToggleSidebar={onToggleSidebar}/>
+    onToggleSidebar={onToggleSidebar}
+    onModalOk={onAddDialog}
+    onSearch={onSearch}
+    onChangeInput={handleChangeInput}
+    users={users}
+    imAuthor={imAuthor}
+    inputValueSearchPartner={inputValueSearchPartner}
+    onShowModalCreateDialog={onShowModalCreateDialog}
+    onDeletePartnerFromDialog={onDeletePartnerFromDialog}
+    visibleModalCreateDialog={visibleModalCreateDialog}
+    isLoading={isLoading}
+    onCloseModalCreateDialog={onCloseModalCreateDialog}/>
 }
 
 export default connect(
