@@ -17,6 +17,7 @@ const ChatInput = props => {
     }
   };
   useEffect(() => {
+    // onStartRecordTranscription()
     props.removeEmbeddedMessage();
     const el = document.querySelector('.chat-input__smile-btn');
     document.addEventListener('click', handleOutsideClick.bind(this, el));
@@ -65,18 +66,18 @@ const ChatInput = props => {
   const onRecording = stream => {
     const recorder = new MediaRecorder(stream);
     setMediaRecorder(recorder);
-
     recorder.start();
-
     recorder.onstart = () => {
       setIsRecording(true);
     };
 
     recorder.onstop = () => {
       setIsRecording(false);
+
     };
 
     recorder.ondataavailable = e => {
+
       const file = new File([e.data], 'audio.webm');
       setLoading(true);
       filesApi.upload(file).then(({ data }) => {

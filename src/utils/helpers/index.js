@@ -8,3 +8,5 @@ export {default as withRouter} from './withRouter';
 export {default as isAudio} from './isAudio';
 export {default as formBytes} from './formBytes';
 export {default as getMessageTime} from './getMessageTime';
+export {default as contryData} from './contryData';
+export {default as onTranslateText} from './onTranslateText';

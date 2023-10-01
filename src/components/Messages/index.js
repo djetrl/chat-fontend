@@ -18,6 +18,7 @@ const Messages = ({
   currentDialog,
   isTyping,
   partner,
+  lang,
   handleLoadNewMessage,
   loadingNewMessage,
   toggleSidebarPartnerFunc,
@@ -38,6 +39,7 @@ const Messages = ({
                 onRemoveMessage={onRemoveMessage.bind(this, item._id)}
                 addEmbeddedMessage={addEmbeddedMessage.bind(this, item)}
                 setPreviewImage={setPreviewImage}
+                lang={lang}
                 key={item._id}
                 scrollByElemnt={scrollByElemnt}
               />

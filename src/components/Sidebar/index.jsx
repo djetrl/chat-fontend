@@ -10,13 +10,16 @@ const { Option } = Select;
 const { TextArea } = Input;
 const Sidebar = ({ user,
   users,
+  lang,
   onCloseModalCreateDialog,
   onShowModalCreateDialog,
   visibleModalCreateDialog,
   onChangeInput,
   inputValue,
+  contryData,
   onSearch,
   isLoading,
+  onSelectLang,
   nameGroup,
   setNameGroup,
   onRemoveAvatarDialog,
@@ -53,6 +56,9 @@ const Sidebar = ({ user,
   const options = users.map(user => {
     return <Option key={user._id}>{user.fullname}</Option>
   })
+
+
+
   return (
     <div className="chat__sidebar">
       <div className="chat__sidebar-header">
@@ -164,6 +170,19 @@ const Sidebar = ({ user,
                       <input type="radio" name="Theme" value="dark" id='valueTheme2' onChange={onSelectTheme} checked={theme === "dark"} />
                       Темная
                     </label>
+                  </div>
+                </div>
+
+
+                <div className='chat__sidebar-setting-itemEdit'>
+                  <h4>Language for translate messages</h4>
+                  <div className="chat__sidebar-setting-item-info">
+                    <Select
+                      defaultValue={lang}
+                      style={{ color: 'white' }}
+                      options={contryData}
+                      onSelect={onSelectLang}
+                    />
                   </div>
                 </div>
               </div>

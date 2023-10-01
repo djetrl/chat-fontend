@@ -104,6 +104,7 @@
         }
       }
       &-itemEdit {
+        padding-bottom: 5%;
         h4 {
           font-size: calc(var(--main-size-text) + 6px);
           margin-bottom: 8px;
@@ -114,6 +115,16 @@
         padding-bottom: 10px;
         &-edit {
           padding: 20px;
+          .ant-select {
+            width: 300px !important;
+            &-selector{
+              background:inherit !important; 
+              border-color:var(--color-text) !important;
+              span{
+                color:var(--color-text) !important;
+              }
+            }
+          }
         }
         .chat__sidebar-setting-item-info {
           label {
@@ -165,6 +176,7 @@
       }
     }
     &-setting--editing {
+
       .input-info-container {
         width: 90%;
         text-align: center;

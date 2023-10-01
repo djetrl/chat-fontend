@@ -13,6 +13,5 @@ export default {
     })
   },
   removeById: id =>axios.delete("/files/media?id="+id),
-  getAllByDialogId: (id)=> axios.get(`/files/media?dialog=${id}`),
+  getAllByDialogId: (id)=> axios.get(`/files/media?dialog=${id}`)
 } 
-// TODO: сделать что при загрузки фото,видео и аудио и других файлов , чтобы они разгуржались в соотвествующие  папки

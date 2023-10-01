@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { userApi, dialogsApi, filesApi } from '../utils/api';
 import { Sidebar } from "../components";
 import { userActions, attachmentsActions } from '../redux/actions';
-import { openNotification } from '../utils/helpers';
+import { openNotification, contryData } from '../utils/helpers';
 
-const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }) => {
+
+const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment,lang, setLang }) => {
   const [visibleModalCreateDialog, setVisibleModalCreateDialog] = useState(false);
   const [visibleSettings, setVisibleSettings] = useState(false);
   const [visibleSettingsEdit, setVisibleSettingsEdit] = useState(false);
@@ -158,13 +159,13 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
     e.preventDefault()
     setIsLoading(true)
     const newData = {};
-    if (user.fullname !== nameInputSetting) {
+    if (user.fullname !== nameInputSetting  && nameInputSetting.length > 0) {
       newData.fullname = nameInputSetting;
     }
     else {
       newData.fullname = user.fullname;
     }
-    if (user.email !== emailInputSetting) {
+    if (user.email !== emailInputSetting && emailInputSetting.length > 0 ) {
       newData.email = emailInputSetting;
     } else {
       newData.email = user.email;
@@ -300,6 +301,9 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
     setAvatarDialog([])
     removeAttachment(item)
   }
+  const onSelectLang = (item)=>{
+    setLang(item)
+  }
   return <Sidebar user={user}
     inputValue={inputValue}
     onSearch={onSearch}
@@ -318,6 +322,7 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
     messageText={messageText}
     onModalOk={onAddDialog}
     users={users}
+    onSelectLang={onSelectLang}
     nameGroup={nameGroup}
     setNameGroup={setNameGroup}
     visibleSettingsEdit={visibleSettingsEdit}
@@ -331,6 +336,7 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
     onSelectFiles={onSelectFiles}
     onSelectTheme={onSelectTheme}
     theme={theme}
+    lang={lang}
     onSelectAvatarDialog={onSelectAvatarDialog}
     avatarDialog={avatarDialog}
     setPasswordOld={setPasswordOld}
@@ -341,6 +347,7 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
     passwordVerificationFunc={passwordVerificationFunc}
     closeAccount={closeAccount}
     onDeleteAccount={onDeleteAccount}
+    contryData={contryData}
   />
 }
 
@@ -348,4 +355,5 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment }
 export default connect(({ user }) => ({
   user: user.data,
   theme: user.theme,
+  lang: user.lang
 }), {...userActions, ...attachmentsActions})(SidebarContainer);

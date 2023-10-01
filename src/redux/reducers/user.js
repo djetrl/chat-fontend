@@ -3,6 +3,7 @@ const initialState = {
   token: window.localStorage.token,
   isAuth: !!window.localStorage.token,
   theme: window.localStorage.theme ? window.localStorage.theme : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark',
+  lang: window.localStorage.lang ?  window.localStorage.lang : window.navigator ? (window.navigator.language.split('-')[0] || window.navigator.systemLanguage.split('-')[0] ||window.navigator.userLanguage.split('-')[0]) : "ru",
   SidebarPartner: false,
   Sidebar: true
 };
@@ -27,6 +28,12 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         theme: payload,
       };
+      case "USER:SET_OPTION_LANG_SET":
+        window.localStorage.setItem('lang', payload);
+        return {
+          ...state,
+          lang: payload,
+        };
     case "USER:SET_OPTION_SIDEBARPARTNER_TOGGLE":
       return {
         ...state,

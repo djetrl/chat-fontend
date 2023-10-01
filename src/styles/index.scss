@@ -148,3 +148,12 @@ input::placeholder{
   background:inherit !important;
   color:var( --color-text-secondary) !important;
 }
+.ant-select-dropdown {
+  background:var(--background-secondaryСolor) !important;
+}
+.ant-select-item{
+  color: var(--color-text) !important;
+}
+:where(.css-dev-only-do-not-override-12upa3x).ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+  background-color:var(--background-color) !important;
+}

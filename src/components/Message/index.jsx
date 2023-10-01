@@ -1,19 +1,18 @@
 import PropsType from 'prop-types';
 import classNames from 'classnames';
-import data from '@emoji-mart/data'
+import data from '@emoji-mart/data';
 import { init } from 'emoji-mart'
 import { Popover, Button } from 'antd'
-import { EllipsisOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, EyeOutlined, DownloadOutlined, TranslationOutlined,LoadingOutlined } from '@ant-design/icons';
 import reactStringReplace from 'react-string-replace';
 import { useState, useRef, useEffect, } from 'react';
-import {IconReaded, Avatar, Video } from '../';
+import { IconReaded, Avatar, Video } from '../';
 import { convertCurrentTime, isAudio } from '../../utils/helpers';
 import waveSvg from '../../assets/img/wave.svg';
 import playSvg from '../../assets/img/play.svg';
 import pauseSvg from '../../assets/img/pause.svg';
-import { formBytes,getMessageTime } from '../../utils/helpers';
+import { formBytes, getMessageTime, onTranslateText, openNotification } from '../../utils/helpers';
 import './Message.scss';
-
 
 const MessageAudio = ({ audioSrc }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -85,8 +84,10 @@ const MessageFile = ({ item }) => {
   )
 }
 
-const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbeddedMessage, embeddedMessage, attachments, isTyping, onRemoveMessage, setPreviewImage, toggleSidebarPartnerFunc, _id }) => {
+const Message = ({ user, text, scrollByElemnt, isMe, createdAt, readed, lang, addEmbeddedMessage, embeddedMessage, attachments, isTyping, onRemoveMessage, setPreviewImage, toggleSidebarPartnerFunc, _id }) => {
   init({ data })
+  const [translateText, setTranslateText] = useState('');
+  const [loadTranslateText, setLoadTranslateText] = useState(false);
   const renderAttachment = (item) => {
     if (item.ext !== 'application/octet-stream' && item.ext.split('/')[0] === 'image') {
       return (
@@ -115,7 +116,7 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
   const renderEmbeddedMessage = (embeddedMessageItem) => {
     if (embeddedMessageItem) {
       return (
-        <div className="embeddedMessage" onClick={() =>{console.log(embeddedMessageItem) ||  scrollByElemnt(embeddedMessageItem._id)}}>
+        <div className="embeddedMessage" onClick={() => { scrollByElemnt(embeddedMessageItem._id) }}>
           {embeddedMessageItem.attachments[0] && (
             embeddedMessageItem.attachments[0].ext.split('/')[0] === 'image' ?
               <img src={embeddedMessageItem.attachments[0].url} alt={embeddedMessageItem.attachments[0].fullname} /> :
@@ -165,6 +166,28 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
         <Popover content={<div className='actionMessage'>
           <Button onClick={onRemoveMessage}>удалить сообщение</Button>
           <Button onClick={addEmbeddedMessage}>Ответить</Button>
+          <Button onClick={() => {
+                                if (!translateText) {
+                                  setLoadTranslateText(true)
+                                  onTranslateText(text, lang).then(data => {
+                                    if (data) {
+                                      setTranslateText(data[0].translations[0].text)
+                                    }
+                                  }).catch(err => {
+                                    setTranslateText('')
+                                    openNotification({
+                                      title: "Ошибка сервера",
+                                      text: "попробуйте позже",
+                                      type: "error"
+                                    });
+                                  })
+                                  .finally(()=>{
+                                    setLoadTranslateText(false)
+                                  })
+                                } else {
+                                  setTranslateText('')
+                                }
+                              }}> {!loadTranslateText ? <TranslationOutlined /> : <LoadingOutlined/>}  {!translateText  ?  'перевод текста' : 'оригинальный текст'}</Button>
         </div>
         } title={null} trigger={"click"}>
           <div className="message__icon-actions">
@@ -174,7 +197,7 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
         <div className="message__avatar" onClick={toggleSidebarPartnerFunc} >
           <Avatar user={user} />
         </div>
-        <div className="message__info">
+        <div className="message__info" style={{"display": (attachments.length >= 5 && text) ? ('block') : ('flex')}}>
           {(text || isTyping) &&
             <div className="message__bubble">
               {embeddedMessage && (
@@ -182,7 +205,18 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
                 embeddedMessage.length > 0 && renderEmbeddedMessage(embeddedMessage[0])
 
               )}
-              {text &&
+
+              {translateText && text ? (
+                <p className='message__text'>
+                  {
+                    reactStringReplace(translateText, /:(.+?):/g, (match, i) => {
+                      return <em-emoji key={i} shortcodes={":" + match + ":"} set={'apple'} size={16}></em-emoji>
+                    })
+
+                  }
+
+                </p>
+              ) : (
                 <p className='message__text'>
                   {
                     reactStringReplace(text, /:(.+?):/g, (match, i) => {
@@ -192,6 +226,7 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
                   }
 
                 </p>
+              )
               }
               {isTyping && (
                 <div className="message__typing">
@@ -210,11 +245,11 @@ const Message = ({ user, text,scrollByElemnt, isMe,createdAt, readed, addEmbedde
               )}
             </div>
           }
-            {(createdAt) && <span className="message__date">{getMessageTime(createdAt)}</span>}
+          {(createdAt) && <span className="message__date">{getMessageTime(createdAt)}</span>}
           {(attachments && attachments[0] && (attachments[0].ext.split('/')[0] === 'image' && text) || !text) && (
             <div className={classNames("message__attachments", {
-              "message-attachments-many":(attachments && attachments.length )> 1,
-              "message-attachments-many-file":(attachments && attachments.length) > 1 && attachments[0].ext.split('/')[0] !== 'image' && attachments[0].ext.split('/')[0] !== 'video'
+              "message-attachments-many": (attachments && attachments.length) > 1,
+              "message-attachments-many-file": (attachments && attachments.length) > 1 && attachments[0].ext.split('/')[0] !== 'image' && attachments[0].ext.split('/')[0] !== 'video'
             })}  >
               {attachments && attachments.map((item) => (renderAttachment(item)))}
             </div>

@@ -15,7 +15,7 @@ const Avatar = ({ user }) => {
   } else {
     let hash ="e286d7515c2dfa2acd0bb1de5976d92e";
     let firstChar = 'f';
-    if(user){
+    if(user && user.fullname[0] && user._id){
       hash = user._id
       firstChar = user.fullname[0].toUpperCase();
     }

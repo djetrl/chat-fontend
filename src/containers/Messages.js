@@ -23,7 +23,8 @@ const Dialogs = ({
   SidebarPartner,
   toggleSidebarPartner,
   filter,
-  setEmbeddedMessage
+  setEmbeddedMessage,
+  lang
 }) => {
 
   const [previewImage, setPreviewImage] = useState(null);
@@ -196,6 +197,7 @@ const Dialogs = ({
       }
     }
   }
+
   return (
     <MemoizedBaseMessages
       user={user}
@@ -210,6 +212,7 @@ const Dialogs = ({
       previewImage={previewImage}
       blockHeight={blockHeight}
       isTyping={isTyping}
+      lang={lang}
       partner={
         user._id !== currentDialog.partner._id ? currentDialog.author : currentDialog.partner
       }
@@ -230,7 +233,8 @@ export default connect(
     isLoading: messages.isLoading,
     attachments: attachments.items,
     user: user.data,
-    SidebarPartner: user.SidebarPartner
+    SidebarPartner: user.SidebarPartner,
+    lang: user.lang
   }),
   { ...messagesActions, ...userActions, ...embeddedMessageActions }
 )(Dialogs);

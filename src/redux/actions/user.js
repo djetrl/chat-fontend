@@ -13,6 +13,12 @@ const Actions = {
         payload: theme
       })
   },
+  setLang: theme =>dispatch=> {
+    dispatch({
+      type: "USER:SET_OPTION_LANG_SET",
+      payload: theme
+    })
+},
   toggleSidebarPartner: bool=>dispatch=> {
     dispatch({
       type: "USER:SET_OPTION_SIDEBARPARTNER_TOGGLE",
@@ -34,11 +40,13 @@ toggleSidebar: bool=>dispatch=> {
   },
   fetchUserData: () => dispatch => {
     userApi.getMe().then(({ data }) => {
+        
       dispatch(Actions.setUserData(data));
     }).catch(err=>{
       if(err.response.status === 403 && err.response.status === 404){
          dispatch(Actions.setIsAuth(false));
          delete window.localStorage.token;
+         window.location.replace("/sigin");
       }
     })
   },
