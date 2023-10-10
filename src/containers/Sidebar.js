@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { userApi, dialogsApi, filesApi } from '../utils/api';
 import { Sidebar } from "../components";
 import { userActions, attachmentsActions } from '../redux/actions';
-import { openNotification, contryData } from '../utils/helpers';
+import { openNotification, contryData, deleteCookie } from '../utils/helpers';
 
 
 const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment,lang, setLang }) => {
@@ -272,7 +272,8 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment,l
     }
   }
   const closeAccount = () => {
-    localStorage.removeItem('token');
+    deleteCookie('refTKn');
+    deleteCookie('acsTKn');
     window.location.replace("/signin");
   }
   const onDeleteAccount = () => {
@@ -283,7 +284,8 @@ const SidebarContainer = ({ user, updateData, theme, setTheme,removeAttachment,l
           text: "Аккаунт удален",
           type: "success"
         });
-        localStorage.removeItem('token');
+        deleteCookie('refTKn');
+        deleteCookie('acsTKn');
 
       }).catch(() => {
         openNotification({

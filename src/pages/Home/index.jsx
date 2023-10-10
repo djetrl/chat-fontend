@@ -5,7 +5,7 @@ import {Messages,Chatinput,Status,Sidebar} from '../../containers';
 import { withRouter } from '../../utils/helpers';
 import { dialogsActions } from '../../redux/actions';
 import './Home.scss';
-
+const ChatinputLazy = lazy(()=>import('../../containers/Chatinput'))
 const SidebarPartnerLazy = lazy(()=>import('../../containers/SidebarPartner'));
 
 const Home = (props)=>{
@@ -28,7 +28,7 @@ const Home = (props)=>{
                 <Status/>                    
                 <Messages/>
                 <div className="chat__dialog-input">
-                      <Chatinput/>
+                      <ChatinputLazy/>
                 </div>
           </div>
             )

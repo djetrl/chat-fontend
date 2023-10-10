@@ -10,3 +10,5 @@ export {default as formBytes} from './formBytes';
 export {default as getMessageTime} from './getMessageTime';
 export {default as contryData} from './contryData';
 export {default as onTranslateText} from './onTranslateText';
+export {default as getCookie} from './getCookie';
+export {default as deleteCookie} from './deleteCookie';

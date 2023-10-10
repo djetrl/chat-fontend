@@ -1,7 +1,8 @@
+  import { getCookie } from "../../utils/helpers";
 const initialState = {
   data: null,
-  token: window.localStorage.token,
-  isAuth: !!window.localStorage.token,
+  token: getCookie('acsTKn'),
+  isAuth: !!getCookie('refTKn'),
   theme: window.localStorage.theme ? window.localStorage.theme : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark',
   lang: window.localStorage.lang ?  window.localStorage.lang : window.navigator ? (window.navigator.language.split('-')[0] || window.navigator.systemLanguage.split('-')[0] ||window.navigator.userLanguage.split('-')[0]) : "ru",
   SidebarPartner: false,
@@ -15,7 +16,7 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         data: payload,
         isAuth: true,
-        token: window.localStorage.token
+        token: getCookie('acsTKn'),
       };
     case "USER:SET_IS_AUTH":
       return {

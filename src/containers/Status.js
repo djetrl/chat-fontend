@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { dialogsApi,userApi } from '../utils/api';
 import { dialogsActions, userActions, messagesActions } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
-import { openNotification } from "../utils/helpers";
-const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs ,SidebarPartner, toggleSidebarPartner, setFilter, toggleSidebar }) => {
+import { openNotification, getCookie } from "../utils/helpers";
+const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDialogs ,SidebarPartner, fetchMessages,  toggleSidebarPartner, setFilter, toggleSidebar }) => {
   const [visibleInput, setVisibleInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [inputValueSearchPartner, seInputValueSearchPartner] = useState('');
@@ -24,7 +24,31 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
       setImAuthor(true)
     }
   }, [currentDialogId])
+  useEffect(() => {
+    let originalCookie = document.cookie;
 
+    const interval = setInterval(() => {
+      if (originalCookie !== document.cookie) {
+        originalCookie = document.cookie
+        if(!getCookie('acsTKn') && user && user._id){
+          userApi.updateToken(getCookie('refTKn')).then(({data})=>{
+            const {  token } = data;
+            window.axios.defaults.headers.common["token"] = token.accessToken.token;
+            fetchMessages(currentDialogId)
+            .catch((err)=>{
+              console.err(err);
+            })
+          }).catch(error=>{
+            if(!getCookie('acsTKn') && !getCookie('refTKn')){
+              // window.location.replace("/signin");
+            }
+          })
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [user]);
   const toggleVisibleInput = () => {
     setVisibleInput(!visibleInput);
   }

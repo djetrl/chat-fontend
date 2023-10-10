@@ -24,7 +24,7 @@ const RecoveryFormContainer = withFormik({
     store.dispatch(userActions.fetchRecoverPassword(values.email.toLowerCase())).then(({data}) => {
       console.log(data);
       if (data.status === "success") {
-          window.location.replace("/signin");
+          // window.location.replace("/signin");
       }
       setSubmitting(false);
     }).catch(()=>{ setSubmitting(false);})

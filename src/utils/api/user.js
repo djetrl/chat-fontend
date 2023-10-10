@@ -12,5 +12,5 @@ export default {
   update: (postData)=> axios.patch("/user/me",postData),
   updatePassword: (postData)=> axios.patch("/user/passwordChange",postData),
   passwordVerification: (postData)=> axios.post("/user/passwordVerification",postData),
-  passwordVerification: (postData)=> axios.delete("/user/passwordVerification",postData),
+  updateToken:  (token) => axios.post("/refresh-tokens", {refreshToken:token})
 }
