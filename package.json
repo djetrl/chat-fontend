@@ -27,14 +27,20 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "reset-css": "^5.0.1",
+    "setimmediate": "^1.0.5",
     "socket.io-client": "^4.7.1",
     "tinycolor2": "^1.6.0",
     "web-vitals": "^2.1.4"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
