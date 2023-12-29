@@ -1,3 +1,3 @@
-import RegisterFrom from "./containers/RegisterFrom";
+import RegisterForm from "./containers/RegisterForm";
 
-export default RegisterFrom;
+export default RegisterForm;

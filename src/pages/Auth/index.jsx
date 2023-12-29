@@ -1,5 +1,5 @@
 import { Route, Routes,useLocation, useNavigate} from 'react-router-dom' 
-import {LoginForm, RegisterFrom, RecoveryForm} from '../../modules';
+import {LoginForm, RegisterForm, RecoveryForm} from '../../modules';
 import CheckEmailInfo from './components/CheckEmailInfo';
 import './Auth.scss';
 
@@ -11,7 +11,7 @@ const Auth = ()=>{
   const switchRoute = (pathname)=>{
       switch(pathname){
         case '/signup':
-          return (<RegisterFrom/>)
+          return (<RegisterForm/>)
         case '/signup/verify':
           return (<CheckEmailInfo location={location} navigate={navigate}/>)
         case '/signin/recovery/':
@@ -27,7 +27,7 @@ const Auth = ()=>{
             <Routes >             
               <Route  path={"*"} element={
                   switchRoute(location.pathname)
-                // location.pathname === '/signup' ? <RegisterFrom/> : location.pathname === "/signup/verify"?<CheckEmailInfo location={location} navigate={navigate}/>:<LoginForm/>
+                // location.pathname === '/signup' ? <RegisterForm/> : location.pathname === "/signup/verify"?<CheckEmailInfo location={location} navigate={navigate}/>:<LoginForm/>
                 }/>
             </Routes>
         </div>

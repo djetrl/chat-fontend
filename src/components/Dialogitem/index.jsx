@@ -36,11 +36,11 @@ const DialogItem = ({
   userId }) =>{
   return (
     
-  <Link to={`/dialog/${_id}`} onClick={onCloseSidebar}>
+  <Link to={`/dialog/${_id}`} name="linkDialog" onClick={onCloseSidebar}>
     
     <div
       className={classNames("dialogs__item", {
-        'dialogs__item--online': partner._id === userId ? author.isOnline : partner.isOnline,
+        'dialogs__item--online': partner[0]._id === userId ? author.isOnline : partner.isOnline,
         'dialogs__item--selected': currentDialogId === _id
       })}>
       <div className="dialogs__item-avatar">

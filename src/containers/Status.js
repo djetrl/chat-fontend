@@ -25,6 +25,7 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
     }
   }, [currentDialogId])
   useEffect(() => {
+      console.log(currentDialogId);
     let originalCookie = document.cookie;
 
     const interval = setInterval(() => {
@@ -159,7 +160,7 @@ const Status = ({ currentDialogId, user, dialogs, setCurrentDialogId, deleteDial
 
   }
   return <StatusBase
-    online={partner[0].isOnline}
+    online={partner[0] && partner[0].isOnline}
     fullname={partner[0].fullname}
     partnerLength = {partner.length}
     nameDiaglog={currentDialogObj ? currentDialogObj.name : null}

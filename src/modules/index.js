@@ -1,5 +1,5 @@
 
 import LoginForm from './LoginForm';
-import RegisterFrom from './RegisterFrom';
+import RegisterForm from './RegisterFrom';
 import RecoveryForm from './RecoveryForm';
-export {LoginForm, RegisterFrom,RecoveryForm };
+export {LoginForm, RegisterForm,RecoveryForm };

@@ -42,7 +42,7 @@ const Video = ({ data }) => {
     <>
       <div className='video'>
         <p className='video-duration'>{convertCurrentTime(currentTime)}</p>
-        <video width={'100%'} ref={videoElem} height="100%" loop muted
+        <video data-testid="video" width={'100%'} ref={videoElem} height="100%" loop muted
           onClick={toggleModal}
           onMouseEnter={onHoverVideo}
           onMouseLeave={onHoverVideo}>

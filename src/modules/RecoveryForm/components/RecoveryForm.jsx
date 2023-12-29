@@ -1,5 +1,5 @@
 import {Form, Input } from 'antd';
-import { LockOutlined,MailOutlined } from '@ant-design/icons';
+import {MailOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {Button, Block} from '../../../components';
 import { validateField } from '../../../utils/helpers';

@@ -49,7 +49,9 @@ const SidebarPartner = (
           <>
             <div className="chat__sidebar-setting-chapter">
               <div className="avatar_wrapper">
-                {dialogsAvatar.length >= 1 && dialogsName && name && avatar ? (dialogsAvatar && dialogsAvatar[0] ? <Image src={avatar[0].url} alt={name} /> : <Avatar user={{ avatar: dialogsAvatar[0], fullname: dialogsName }} />) :
+                {dialogsAvatar.length >= 1 && dialogsName && name && avatar ? 
+                      (dialogsAvatar && dialogsAvatar[0] ? <Image src={avatar[0].url} alt={name} /> : 
+                      <Avatar user={{ avatar: dialogsAvatar[0], fullname: dialogsName }} />) :
                   user && user.avatar[0] ? <Image src={user.avatar[0].url} alt={user.avatar[0].filename} /> : <Avatar user={user} />}
               </div>
 
@@ -108,6 +110,7 @@ const SidebarPartner = (
                               height={100}
                               key={attachment._id}
                               src={attachment.url}
+                              alt={`image ${attachment._id}`}
                             />
                           )
                         }
@@ -156,12 +159,11 @@ const SidebarPartner = (
                                   <Button type='link' shape='circle' icon={<DownloadOutlined />} />
                                 </a>
                                 <div className='chat__sidebarPartner--file_container--item--section--info' >
-                                  <p className='chat__sidebarPartner--file_container--item--section--info--name'>{attachment.filename}</p>
+                                  <p className='chat__sidebarPartner--file_container--item--section--info--name' >{attachment.filename}</p>
                                   <span><p>{formBytes(attachment.size)}</p> <p>{format(new Date(attachment.createdAt), "dd.MM.yyyy")}</p> </span>
                                 </div>
                               </div>
-                              <div className="chat__sidebarPartner--file_container--item--section">
-                              </div>
+                              <div className="chat__sidebarPartner--file_container--item--section"> </div>
                             </div>
                           )
                         }
@@ -177,7 +179,7 @@ const SidebarPartner = (
           </>
         ) : (
           <>
-            <form className="profile-form  sidebarPartner-form-setting" onSubmit={sendChangeDialog}>
+            <form className="profile-form  sidebarPartner-form-setting" name='setting' onSubmit={sendChangeDialog}>
               <UploadField
                 name="avatar"
                 onFiles={(file) => { onSelectFiles(file) }}
@@ -198,7 +200,7 @@ const SidebarPartner = (
               {
                 (dialogsName.trim() !== name.trim()) ||
                   (dialogsAvatar.length >= 1 ? (dialogsAvatar[0].url !== avatar[0].url) : dialogsAvatar.length === 1) ?
-                  <input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} /> : null
+                  <input type="submit" className='btn-setting-submit ' value={"✓"} disabled={isLoading} placeholder='✓' /> : null
               }
             </form>
           </>

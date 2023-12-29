@@ -84,16 +84,16 @@ const Chatinput = (props) => {
             uploadProps={{
               multiple: 'multiple'
             }}>
-            <Button type='link' shape='circle' icon={<FileOutlined />} />
+            <Button type='link' shape='circle' name='btnFile' icon={<FileOutlined />} />
           </UploadField >
 
           {isLoading ? (
             <Button type='link' shape='circle' icon={<LoadingOutlined />} />
           ) : isRecording || value || attachments.length ? (
-            <Button onClick={sendMessage} type='link' shape='circle' icon={<CheckCircleOutlined />} />
+            <Button onClick={sendMessage} type='link' name='sendTextBtn' shape='circle' icon={<CheckCircleOutlined />} />
           ) : (
             <div className="chat-input__record-btn">
-              <Button type='link' onClick={onRecord} shape='circle' icon={<AudioOutlined />} />
+              <Button type='link' onClick={onRecord} shape='circle' name='audioBtn' icon={<AudioOutlined />} />
             </div>
           )
 
