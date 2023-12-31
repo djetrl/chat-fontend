@@ -32,7 +32,6 @@ const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, use
   };
 
   window.fetchDialogs = fetchDialogs;
-
   useEffect(() => {
     if (items.length) {
       onChangeInput();
@@ -40,7 +39,9 @@ const Dialogs = ({ fetchDialogs, updateReadedStatus, currentDialogId, items, use
   }, [items]);
 
   useEffect(() => {
-    fetchDialogs();
+    if(items.length === 0){
+      fetchDialogs();
+    }
 
     socket.on('SERVER:DIALOG_CREATED', fetchDialogs);
     socket.on('SERVER:DIALOG_DELETED', () => { onChangeInput() });
