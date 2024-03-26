@@ -50,7 +50,7 @@
     ]
   },
   
-  "proxy": "http://localhost:3003/",
+  "proxy": "http://172.17.5.94:3003/",
   "browserslist": {
     "production": [
       ">0.2%",
