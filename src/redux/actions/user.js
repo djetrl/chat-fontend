@@ -1,4 +1,4 @@
-import { openNotification, getCookie, deleteCookie } from "../../utils/helpers";
+import { openNotification, getCookie ,deleteCookie } from "../../utils/helpers";
 import { userApi } from "../../utils/api";
 
 
@@ -46,7 +46,7 @@ const Actions = {
         dispatch(Actions.setIsAuth(false));
         deleteCookie('refTKn');
         deleteCookie('acsTKn');
-        // window.location.replace("/signin");
+        window.location.replace("/signin");
       })
     } else {
       if (getCookie('acsTKn')) {
@@ -55,13 +55,13 @@ const Actions = {
           window.axios.defaults.headers.common["token"] = token.accessToken.token;
           dispatch(Actions.setIsAuth(true));
         }).catch(error => {
-          // window.location.replace("/signin");
-          // dispatch(Actions.setIsAuth(false));
+          window.location.replace("/signin");
+          dispatch(Actions.setIsAuth(false));
         })
       }else{
         dispatch(Actions.setIsAuth(false));
-        deleteCookie('refTKn');
-        deleteCookie('acsTKn');
+        // deleteCookie('refTKn');
+        // deleteCookie('acsTKn');
         // window.location.replace("/signin");
       }
     }

@@ -1,7 +1,8 @@
 {
   "name": "chat",
   "version": "0.3.0",
-  "private": true,
+  "private": false,
+
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
@@ -11,11 +12,13 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.6.3",
     "axios": "^1.4.0",
+    "caniuse-lite": "^1.0.30001600",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "emoji-mart": "^5.5.2",
     "formik": "^2.4.2",
     "free-translate": "^0.6.1",
+    "http-proxy-middleware": "^2.0.6",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -49,7 +52,6 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://172.17.5.94:3003/",
   "browserslist": {
     "production": [
       ">0.2%",
